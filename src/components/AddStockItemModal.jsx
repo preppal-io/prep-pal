@@ -65,15 +65,20 @@ const translations = {
     de_CH: `${description} wurde erfolgreich zu ${categoryName} hinzugefügt`,
     en_US: `${description} was successfully added to ${categoryName}` 
   }),
-  productNamePlaceholder: {
-    fr_CH: "Entrez le nom du produit",
-    de_CH: "Produktname eingeben",
-    en_US: "Enter product name"
-  },
   quantityPlaceholder: {
     fr_CH: "Entrez la quantité",
     de_CH: "Menge eingeben",
     en_US: "Enter quantity"
+  },
+  unnamedProduct: {
+    fr_CH: "Produit sans nom",
+    de_CH: "Unbenanntes Produkt",
+    en_US: "Unnamed product"
+  },
+  defaultNamePlaceholder: {
+    fr_CH: "(Produit sans nom)",
+    de_CH: "(Unbenanntes Produkt)",
+    en_US: "(Unnamed product)"
   }
 }
 
@@ -86,21 +91,24 @@ function AddStockItemModal({ opened, onClose, categoryId, categoryName }) {
 
   const handleSubmit = async () => {
     try {
-      setSaveStatus({ 
-        saving: true, 
-        success: null, 
-        message: translated.itemAdded(description, categoryName),
+      // Use "Unnamed product" if description is empty
+      const finalDescription = description.trim() || translated.unnamedProduct
+
+      setSaveStatus({
+        saving: true,
+        success: null,
+        message: translated.itemAdded(finalDescription, categoryName),
         id: 'save-stock-item'
       })
-      
+
       // Get the category to determine check days
       const category = productData.baseCategories.find(cat => cat.id === categoryId)
       const checkDays = category?.usualExpiryCheckDays || 90 // Default to 90 days if not specified
-      
+
       // Create new stock item
       const newItem = {
         typeId: categoryId,
-        description,
+        description: finalDescription,
         quantity,
         addedDate: getTodayFormatted(),
         checkedDate: getTodayFormatted(),
@@ -116,12 +124,12 @@ function AddStockItemModal({ opened, onClose, categoryId, categoryName }) {
       // Save the updated stock
       const success = await saveStockData(updatedStock)
       
-      setSaveStatus({ 
-        saving: false, 
-        success: success, 
-        message: success 
-          ? translated.itemAddedToCategory(description, categoryName)
-          : translated.itemAddFailed(description, categoryName),
+      setSaveStatus({
+        saving: false,
+        success: success,
+        message: success
+          ? translated.itemAddedToCategory(finalDescription, categoryName)
+          : translated.itemAddFailed(finalDescription, categoryName),
         id: 'save-stock-item'
       })
       
@@ -156,36 +164,35 @@ function AddStockItemModal({ opened, onClose, categoryId, categoryName }) {
           
           <TextInput
             label={translated.productName}
-            placeholder={translated.productNamePlaceholder}
+            placeholder={translated.defaultNamePlaceholder}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && description && quantity >= 1) {
+              if (e.key === 'Enter' && quantity >= 1) {
                 handleSubmit();
               }
             }}
-            required
-            data-autofocus
           />
-          
+
           <NumberInput
             label={translated.quantity}
             placeholder={translated.quantityPlaceholder}
             value={quantity}
             onChange={setQuantity}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && description && quantity >= 1) {
+              if (e.key === 'Enter' && quantity >= 1) {
                 handleSubmit();
               }
             }}
             min={1}
             required
+            data-autofocus
           />
         </FocusTrap>
         
         <Group position="right" mt="md">
           <Button variant="outline" onClick={onClose}>{translated.cancel}</Button>
-          <Button onClick={handleSubmit} disabled={!description || quantity < 1}>
+          <Button onClick={handleSubmit} disabled={quantity < 1}>
             {translated.save}
           </Button>
         </Group>
