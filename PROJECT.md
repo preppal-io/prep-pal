@@ -50,17 +50,14 @@
 - [x] Make it printable
 - [x] Add default units to each item
 
-## Admin
+## Infra and misc
 
 - [x] Add possibility to delete the file to restart from scratch
-
-## Misc
-
 - [x] Multi-language (FR, DE, EN)
-- [ ] better error display management - remove the popovers
-- [ ] better scroll control - stay on the same scroll level when closing/opening popovers (put popovers on the right?)
 - [ ] Add a profile ID (prepare for login)
 - [ ] Redesign
+    - [ ] better error display management - remove the popovers
+    - [ ] better scroll control - stay on the same scroll level when closing/opening popovers (put popovers on the right?)
 - [ ] Distribution
     - [x] rename repo
     - [x] use electron-builder to build and publish artefacts on Gitlhub (separate repo for now?)
@@ -68,14 +65,17 @@
     - [x] document process: version inc + deploy
     - [ ] Sign code to have auto-updates?
 - [ ] Logo for the app, and better branding
+- [ ] Split repositories (landing page, basic "free" app, and SaaS! -> look at license!)
 
-## Later 
+## Next
 
-### Misc
+### Country and social
 
 - [ ] Country specific calculator?
+    - [ ] add the official swiss calculator
+    - [ ] add the country selection (France?)
 - [ ] Recommendations for basic readyness
-- [ ] Blog / news / events / how tos (partnerships?)
+- [ ] Blog / news / events / how tos (partnerships?) - per country, swiss first
 
 ### Mobile app
 
@@ -83,13 +83,20 @@
 - [ ] QR Code to get shopping list on Mobile 
 - [ ] QR code to be able to manage stock on mobile
 
-### Cloud only, once identified
+### Online feature
 
+- [ ] Anonymous account with online DB instead of offline
 - [ ] Notifications
     - [ ] Notification center in the interface
     - [ ] Mobile? SMS? Email? -> Stock expiry and warnings
-- [ ] Social recommendation: what other are buying for default categories (require unique ID of categories)
-- [ ] One click supply for specific items? (drop shipping API? Partnership? -> Swiss usual shops)
+- [ ] Social recommendation: what other are buying for default categories (require unique ID of categories?)
+- [ ] One click supply for specific items? (drop shipping API? Partnership? Small team? -> Swiss usual shops)
+- [ ] Automatic resupply: when stock is low, get new supplies automatically for some vital items
+- [ ] Supply chain grouping (local networks, or "social buying") to:
+    - Resupply with group deals
+    - Local "lead" >> gets a local view 
+    - Needs grouping of user (opt-in or out of a "chapter")
+
 
 # Known bugs
 
