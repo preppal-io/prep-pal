@@ -96,6 +96,7 @@
     - Resupply with group deals
     - Local "lead" >> gets a local view 
     - Needs grouping of user (opt-in or out of a "chapter")
+- [ ] A browser extension to fill in the Coop or Migros cart (for CH) when visiting the site
 
 
 # Known bugs

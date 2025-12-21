@@ -15,7 +15,7 @@ const getLocalizedProductCategories = (locale = 'en_US', computeQuantityFunc = (
       //...category,
       id: category.id,
       onlineShopLink: category.onlineShopLink,
-      usualExpiryCheckDate: category.usualExpiryCheckDate,
+      usualExpiryCheckDays: category.usualExpiryCheckDays,
       quantityOverride: "",
       recommendedQtyDayAdult: category.recommendedQtyDayAdult,
 
