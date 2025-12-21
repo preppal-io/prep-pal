@@ -309,7 +309,6 @@ export const ProductProvider = ({ children }) => {
       const categoryToAdd = {
         id: newId,
         ...newCategory,
-        preferences: [],
         onlineShopLink: newCategory.onlineShopLink ? [newCategory.onlineShopLink] : []
       }
       

@@ -15,7 +15,6 @@
                 "de_CH": "1,5-Liter-Flaschen, zum Trinken und Kochen!"
             },
             "quantity": 75,
-            "preferences": [],
             "usualExpiryCheckDays": 180,
             "quantityOverride": "",
             "defaultUnit": {
@@ -42,7 +41,6 @@
                 "de_CH": "Obst- und Gemüsesäfte, 1-Liter-Süßgetränke"
             },
             "quantity": 8,
-            "preferences": [],
             "usualExpiryCheckDays": 60,
             "defaultUnit": {
                 "en_US": "1l bottle",
@@ -68,7 +66,6 @@
                 "de_CH": "ca. 100 g"
             },
             "quantity": 4,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "100 g",
@@ -94,7 +91,6 @@
                 "de_CH": "1 kg"
             },
             "quantity": 1,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "1kg",
@@ -120,7 +116,6 @@
                 "de_CH": "1 Liter"
             },
             "quantity": 8,
-            "preferences": [],
             "usualExpiryCheckDays": 30,
             "defaultUnit": {
                 "en_US": "1l",
@@ -146,7 +141,6 @@
                 "de_CH": "Dosengemüse z.B. (Mais, Tomaten, Pilze, Erbsen und Karotten) (ca. 300 g)"
             },
             "quantity": 34,
-            "preferences": [],
             "usualExpiryCheckDays": 180,
             "defaultUnit": {
                 "en_US": "300g cans",
@@ -172,7 +166,6 @@
                 "de_CH": "Apfelmus, Ananas aus der Dose oder Trockenfrüchte, z.B. (ca. 300 g)"
             },
             "quantity": 27,
-            "preferences": [],
             "usualExpiryCheckDays": 180,
             "defaultUnit": {
                 "en_US": "300g cans",
@@ -198,7 +191,6 @@
                 "de_CH": "Tomatensauce, Pesto, Ketchup, Mayonnaise, Senf, z.B. (ca. 200 g)"
             },
             "quantity": 12,
-            "preferences": [],
             "usualExpiryCheckDays": 180,
             "defaultUnit": {
                 "en_US": "200g containers",
@@ -224,7 +216,6 @@
                 "de_CH": "Bouillonwürfel, verzehrfertige und gefriergetrocknete Suppen mit Tomaten, Fadennudeln, z.B. (ca. 200 g)"
             },
             "quantity": 12,
-            "preferences": [],
             "usualExpiryCheckDays": 180,
             "defaultUnit": {
                 "en_US": "200g packs",
@@ -250,7 +241,6 @@
                 "de_CH": "Nudeln, Reis, Reiswaffeln, Müsli, z.B. oder glutenfreie Alternative (ca. 500 g)"
             },
             "quantity": 15,
-            "preferences": [],
             "usualExpiryCheckDays": 180,
             "defaultUnit": {
                 "en_US": "500g boxes",
@@ -276,7 +266,6 @@
                 "de_CH": "Verzehrfertiges Risotto, Rösti, z.B. (ca. 250 g)"
             },
             "quantity": 19,
-            "preferences": [],
             "usualExpiryCheckDays": 180,
             "defaultUnit": {
                 "en_US": "250g packs",
@@ -302,7 +291,6 @@
                 "de_CH": "Kichererbsen, Bohnen in Tomatensauce, Linsen in Dosen oder getrocknet, z.B. (ca. 400 g)"
             },
             "quantity": 23,
-            "preferences": [],
             "usualExpiryCheckDays": 180,
             "defaultUnit": {
                 "en_US": "400g cans",
@@ -328,7 +316,6 @@
                 "de_CH": "Trockenfleisch, Rohschinken, Salami, italienischer Käse in Dosen (ca. 100 g)"
             },
             "quantity": 12,
-            "preferences": [],
             "usualExpiryCheckDays": 30,
             "defaultUnit": {
                 "en_US": "100g packs",
@@ -354,7 +341,6 @@
                 "de_CH": "Sardinen in Dosen, Thunfisch (ca. 100 g)"
             },
             "quantity": 19,
-            "preferences": [],
             "usualExpiryCheckDays": 60,
             "defaultUnit": {
                 "en_US": "100g cans",
@@ -380,7 +366,6 @@
                 "de_CH": "Hartkäse (ca. 300 g)"
             },
             "quantity": 4,
-            "preferences": [],
             "usualExpiryCheckDays": 30,
             "defaultUnit": {
                 "en_US": "300g packs",
@@ -406,7 +391,6 @@
                 "de_CH": "Cashewnüsse, Mandeln, Haselnüsse (ca. 200 g)"
             },
             "quantity": 4,
-            "preferences": [],
             "usualExpiryCheckDays": 120,
             "defaultUnit": {
                 "en_US": "200g packs",
@@ -432,7 +416,6 @@
                 "de_CH": "Olivenöl, Rapsöl (ca. 1 L)"
             },
             "quantity": 1,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "1l",
@@ -458,7 +441,6 @@
                 "de_CH": "Salz, Pfeffer, Zucker, Süßstoff"
             },
             "quantity": 1,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "packs",
@@ -484,7 +466,6 @@
                 "de_CH": "Müsliriegel, Süßigkeiten, Schokolade, Trockenfrüchte"
             },
             "quantity": 15,
-            "preferences": [],
             "usualExpiryCheckDay": 30,
             "defaultUnit": {
                 "en_US": "packs",
@@ -510,7 +491,6 @@
                 "de_CH": "Seife, Shampoo, Deodorant, Zahnpasta"
             },
             "quantity": 3,
-            "preferences": [],
             "usualExpiryCheckDays": 180,
             "defaultUnit": {
                 "en_US": "bottles",
@@ -536,7 +516,6 @@
                 "de_CH": "Slipeinlagen, Tampons, Damenbinden"
             },
             "quantity": 3,
-            "preferences": [],
             "usualExpiryCheckDays": 180,
             "defaultUnit": {
                 "en_US": "packs",
@@ -562,7 +541,6 @@
                 "de_CH": "Packungen"
             },
             "quantity": 3,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "Multi-roll packs",
@@ -588,7 +566,6 @@
                 "de_CH": "Packungen"
             },
             "quantity": 3,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "Multi-packs",
@@ -614,7 +591,6 @@
                 "de_CH": ""
             },
             "quantity": 1,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "bottles",
@@ -640,7 +616,6 @@
                 "de_CH": ""
             },
             "quantity": 150,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "pieces",
@@ -666,7 +641,6 @@
                 "de_CH": "Ca. 100 ml"
             },
             "quantity": 6,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "100ml bottle",
@@ -692,7 +666,6 @@
                 "de_CH": ""
             },
             "quantity": 3,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "packs",
@@ -718,7 +691,6 @@
                 "de_CH": ""
             },
             "quantity": 14,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "pieces",
@@ -744,7 +716,6 @@
                 "de_CH": ""
             },
             "quantity": 1,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "pieces",
@@ -770,7 +741,6 @@
                 "de_CH": ""
             },
             "quantity": 1,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "pieces",
@@ -796,7 +766,6 @@
                 "de_CH": "Packungen AA, AAA"
             },
             "quantity": 20,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "pieces",
@@ -822,7 +791,6 @@
                 "de_CH": ""
             },
             "quantity": 1,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "pieces",
@@ -848,7 +816,6 @@
                 "de_CH": ""
             },
             "quantity": 2,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "pieces or packs",
@@ -874,7 +841,6 @@
                 "de_CH": ""
             },
             "quantity": 1,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "pieces",
@@ -900,7 +866,6 @@
                 "de_CH": ""
             },
             "quantity": 1,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "pieces",
@@ -926,7 +891,6 @@
                 "de_CH": "Schweizer Messer oder ähnliches"
             },
             "quantity": 1,
-            "preferences": [],
             "usualExpiryCheckDays": 365,
             "defaultUnit": {
                 "en_US": "pieces",
