@@ -1,0 +1,1079 @@
+{
+  "configuration" : { },
+  "description" : "Emergency Preparedness Stock Management Application",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2025-12-29T14:39:27Z",
+  "model" : {
+    "people" : [ {
+      "description" : "A person managing their emergency preparedness stock inventory",
+      "id" : "1",
+      "name" : "User",
+      "properties" : {
+        "structurizr.dsl.identifier" : "user"
+      },
+      "relationships" : [ {
+        "description" : "Manages emergency stock inventory using",
+        "destinationId" : "3",
+        "id" : "32",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Views and manages stock through",
+        "destinationId" : "4",
+        "id" : "34",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "HTTPS/File Protocol"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "description" : "Hosts application releases and provides auto-update functionality",
+      "documentation" : { },
+      "id" : "2",
+      "name" : "GitHub Releases",
+      "properties" : {
+        "structurizr.dsl.identifier" : "github"
+      },
+      "tags" : "Element,Software System,External"
+    }, {
+      "containers" : [ {
+        "components" : [ {
+          "description" : "Manages product categories and stock data state, provides CRUD operations for inventory",
+          "documentation" : { },
+          "id" : "5",
+          "name" : "ProductContext",
+          "properties" : {
+            "structurizr.dsl.identifier" : "productContext"
+          },
+          "relationships" : [ {
+            "description" : "Uses for data persistence",
+            "destinationId" : "17",
+            "id" : "54",
+            "sourceId" : "5",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Shows save status",
+            "destinationId" : "19",
+            "id" : "77",
+            "sourceId" : "5",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Context"
+        }, {
+          "description" : "Manages user profile and preferences including language settings",
+          "documentation" : { },
+          "id" : "6",
+          "name" : "UserContext",
+          "properties" : {
+            "structurizr.dsl.identifier" : "userContext"
+          },
+          "relationships" : [ {
+            "description" : "Uses for profile persistence",
+            "destinationId" : "17",
+            "id" : "55",
+            "sourceId" : "6",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Shows save status",
+            "destinationId" : "19",
+            "id" : "78",
+            "sourceId" : "6",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Context"
+        }, {
+          "description" : "Displays and manages recommended product categories and quantities based on household size and days of preparedness",
+          "documentation" : { },
+          "id" : "7",
+          "name" : "RecommendedScreen",
+          "properties" : {
+            "structurizr.dsl.identifier" : "recommendedScreen"
+          },
+          "relationships" : [ {
+            "description" : "Reads categories, calls addCategory, updateCategory, deleteCategory",
+            "destinationId" : "5",
+            "id" : "45",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Opens for new category",
+            "destinationId" : "11",
+            "id" : "48",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Opens for category editing",
+            "destinationId" : "12",
+            "id" : "49",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Shows when no data exists",
+            "destinationId" : "10",
+            "id" : "50",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Contains reset button",
+            "destinationId" : "16",
+            "id" : "51",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "Manages current stock inventory with expiry date tracking and quantity management",
+          "documentation" : { },
+          "id" : "8",
+          "name" : "CurrentScreen",
+          "properties" : {
+            "structurizr.dsl.identifier" : "currentScreen"
+          },
+          "relationships" : [ {
+            "description" : "Reads stock and categories, calls saveStockData",
+            "destinationId" : "5",
+            "id" : "46",
+            "sourceId" : "8",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Opens for new stock item",
+            "destinationId" : "13",
+            "id" : "52",
+            "sourceId" : "8",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Uses for date tracking",
+            "destinationId" : "14",
+            "id" : "53",
+            "sourceId" : "8",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "Generates printable shopping lists based on inventory gaps between current and target quantities",
+          "documentation" : { },
+          "id" : "9",
+          "name" : "ShoppingListScreen",
+          "properties" : {
+            "structurizr.dsl.identifier" : "shoppingListScreen"
+          },
+          "relationships" : [ {
+            "description" : "Reads stock and categories to calculate shopping needs",
+            "destinationId" : "5",
+            "id" : "47",
+            "sourceId" : "9",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "Modal for initial setup - collects household size and preparedness duration",
+          "documentation" : { },
+          "id" : "10",
+          "name" : "InitDatabases",
+          "properties" : {
+            "structurizr.dsl.identifier" : "initDatabases"
+          },
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "Modal form for adding new product categories",
+          "documentation" : { },
+          "id" : "11",
+          "name" : "AddCategoryModal",
+          "properties" : {
+            "structurizr.dsl.identifier" : "addCategoryModal"
+          },
+          "relationships" : [ {
+            "description" : "Calls addCategory",
+            "destinationId" : "5",
+            "id" : "72",
+            "sourceId" : "11",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "Modal form for editing existing product categories",
+          "documentation" : { },
+          "id" : "12",
+          "name" : "EditCategoryModal",
+          "properties" : {
+            "structurizr.dsl.identifier" : "editCategoryModal"
+          },
+          "relationships" : [ {
+            "description" : "Calls updateCategory",
+            "destinationId" : "5",
+            "id" : "73",
+            "sourceId" : "12",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "Modal form for adding new stock items to inventory",
+          "documentation" : { },
+          "id" : "13",
+          "name" : "AddStockItemModal",
+          "properties" : {
+            "structurizr.dsl.identifier" : "addStockItemModal"
+          },
+          "relationships" : [ {
+            "description" : "Adds to stock",
+            "destinationId" : "5",
+            "id" : "74",
+            "sourceId" : "13",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "Component for tracking and updating item check dates with visual state machine",
+          "documentation" : { },
+          "id" : "14",
+          "name" : "ItemDateChecker",
+          "properties" : {
+            "structurizr.dsl.identifier" : "itemDateChecker"
+          },
+          "relationships" : [ {
+            "description" : "Uses for date calculations",
+            "destinationId" : "18",
+            "id" : "75",
+            "sourceId" : "14",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Updates check dates via",
+            "destinationId" : "5",
+            "id" : "76",
+            "sourceId" : "14",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "Handles data export as JSON and import from JSON files",
+          "documentation" : { },
+          "id" : "15",
+          "name" : "ImportExportDatabase",
+          "properties" : {
+            "structurizr.dsl.identifier" : "importExportDatabase"
+          },
+          "relationships" : [ {
+            "description" : "Imports data via",
+            "destinationId" : "5",
+            "id" : "70",
+            "sourceId" : "15",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Exports data via",
+            "destinationId" : "17",
+            "id" : "71",
+            "sourceId" : "15",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "Provides database reset functionality",
+          "documentation" : { },
+          "id" : "16",
+          "name" : "ResetDatabases",
+          "properties" : {
+            "structurizr.dsl.identifier" : "resetDatabases"
+          },
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "Abstraction layer for file I/O - handles both Electron IPC and localStorage transparently",
+          "documentation" : { },
+          "id" : "17",
+          "name" : "File Utilities",
+          "properties" : {
+            "structurizr.dsl.identifier" : "fileUtils"
+          },
+          "relationships" : [ {
+            "description" : "Calls via window.electron.ipcRenderer",
+            "destinationId" : "25",
+            "id" : "56",
+            "sourceId" : "17",
+            "tags" : "Relationship",
+            "technology" : "IPC"
+          }, {
+            "description" : "Calls via window.electron.ipcRenderer",
+            "destinationId" : "23",
+            "id" : "57",
+            "linkedRelationshipId" : "56",
+            "sourceId" : "17",
+            "technology" : "IPC"
+          }, {
+            "description" : "Reads/writes when in browser mode",
+            "destinationId" : "31",
+            "id" : "59",
+            "sourceId" : "17",
+            "tags" : "Relationship",
+            "technology" : "Web Storage API"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "JavaScript Module"
+        }, {
+          "description" : "Date parsing, formatting, and comparison functions",
+          "documentation" : { },
+          "id" : "18",
+          "name" : "Date Utilities",
+          "properties" : {
+            "structurizr.dsl.identifier" : "dateUtils"
+          },
+          "tags" : "Element,Component",
+          "technology" : "JavaScript Module"
+        }, {
+          "description" : "Toast notification management using Mantine notifications",
+          "documentation" : { },
+          "id" : "19",
+          "name" : "Notification Utilities",
+          "properties" : {
+            "structurizr.dsl.identifier" : "notificationUtils"
+          },
+          "tags" : "Element,Component",
+          "technology" : "JavaScript Module"
+        }, {
+          "description" : "Runtime environment detection and URL opening",
+          "documentation" : { },
+          "id" : "20",
+          "name" : "Browser Utilities",
+          "properties" : {
+            "structurizr.dsl.identifier" : "browserUtils"
+          },
+          "tags" : "Element,Component",
+          "technology" : "JavaScript Module"
+        }, {
+          "description" : "Main application shell with navigation, header, and routing",
+          "documentation" : { },
+          "id" : "21",
+          "name" : "App Shell",
+          "properties" : {
+            "structurizr.dsl.identifier" : "appShell"
+          },
+          "relationships" : [ {
+            "description" : "Contains",
+            "destinationId" : "22",
+            "id" : "39",
+            "sourceId" : "21",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Provides to children",
+            "destinationId" : "5",
+            "id" : "43",
+            "sourceId" : "21",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Provides to children",
+            "destinationId" : "6",
+            "id" : "44",
+            "sourceId" : "21",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Component"
+        }, {
+          "description" : "HashRouter configuration for Electron compatibility",
+          "documentation" : { },
+          "id" : "22",
+          "name" : "Router",
+          "properties" : {
+            "structurizr.dsl.identifier" : "router"
+          },
+          "relationships" : [ {
+            "description" : "Routes to /recommended",
+            "destinationId" : "7",
+            "id" : "40",
+            "sourceId" : "22",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Routes to /current",
+            "destinationId" : "8",
+            "id" : "41",
+            "sourceId" : "22",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Routes to /shopping-list",
+            "destinationId" : "9",
+            "id" : "42",
+            "sourceId" : "22",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "React Router v7"
+        } ],
+        "description" : "Single-page application providing the user interface for stock management",
+        "documentation" : { },
+        "id" : "4",
+        "name" : "React Web Application",
+        "properties" : {
+          "structurizr.dsl.identifier" : "reactApp"
+        },
+        "relationships" : [ {
+          "description" : "Communicates via",
+          "destinationId" : "23",
+          "id" : "35",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "Electron IPC"
+        }, {
+          "description" : "Reads and writes data to",
+          "destinationId" : "31",
+          "id" : "38",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "Web Storage API"
+        }, {
+          "description" : "Calls via window.electron.ipcRenderer",
+          "destinationId" : "25",
+          "id" : "58",
+          "linkedRelationshipId" : "56",
+          "sourceId" : "4",
+          "technology" : "IPC"
+        } ],
+        "tags" : "Element,Container,WebBrowser",
+        "technology" : "React 18, Vite, Mantine v8"
+      }, {
+        "components" : [ {
+          "description" : "Creates and manages the BrowserWindow lifecycle",
+          "documentation" : { },
+          "id" : "24",
+          "name" : "Window Manager",
+          "properties" : {
+            "structurizr.dsl.identifier" : "windowManager"
+          },
+          "relationships" : [ {
+            "description" : "Loads",
+            "destinationId" : "4",
+            "id" : "67",
+            "sourceId" : "24",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Electron BrowserWindow"
+        }, {
+          "description" : "Handles inter-process communication for file operations",
+          "documentation" : { },
+          "id" : "25",
+          "name" : "IPC Handlers",
+          "properties" : {
+            "structurizr.dsl.identifier" : "ipcHandlers"
+          },
+          "relationships" : [ {
+            "description" : "Reads and writes",
+            "destinationId" : "28",
+            "id" : "60",
+            "sourceId" : "25",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Reads and writes",
+            "destinationId" : "27",
+            "id" : "61",
+            "linkedRelationshipId" : "60",
+            "sourceId" : "25"
+          }, {
+            "description" : "Reads and writes",
+            "destinationId" : "29",
+            "id" : "63",
+            "sourceId" : "25",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Reads and writes",
+            "destinationId" : "30",
+            "id" : "65",
+            "sourceId" : "25",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Electron IPC"
+        }, {
+          "description" : "Checks for and applies application updates from GitHub releases",
+          "documentation" : { },
+          "id" : "26",
+          "name" : "Auto-Updater",
+          "properties" : {
+            "structurizr.dsl.identifier" : "autoUpdater"
+          },
+          "relationships" : [ {
+            "description" : "Fetches releases from",
+            "destinationId" : "2",
+            "id" : "69",
+            "sourceId" : "26",
+            "tags" : "Relationship",
+            "technology" : "HTTPS"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "electron-updater"
+        } ],
+        "description" : "Desktop application wrapper providing native OS integration and file system access",
+        "documentation" : { },
+        "id" : "23",
+        "name" : "Electron Main Process",
+        "properties" : {
+          "structurizr.dsl.identifier" : "electronMain"
+        },
+        "relationships" : [ {
+          "description" : "Reads and writes data to",
+          "destinationId" : "27",
+          "id" : "36",
+          "sourceId" : "23",
+          "tags" : "Relationship",
+          "technology" : "Node.js fs"
+        }, {
+          "description" : "Checks for updates from",
+          "destinationId" : "2",
+          "id" : "37",
+          "sourceId" : "23",
+          "tags" : "Relationship",
+          "technology" : "HTTPS"
+        }, {
+          "description" : "Reads and writes",
+          "destinationId" : "28",
+          "id" : "62",
+          "linkedRelationshipId" : "60",
+          "sourceId" : "23"
+        }, {
+          "description" : "Reads and writes",
+          "destinationId" : "29",
+          "id" : "64",
+          "linkedRelationshipId" : "63",
+          "sourceId" : "23"
+        }, {
+          "description" : "Reads and writes",
+          "destinationId" : "30",
+          "id" : "66",
+          "linkedRelationshipId" : "65",
+          "sourceId" : "23"
+        }, {
+          "description" : "Loads",
+          "destinationId" : "4",
+          "id" : "68",
+          "linkedRelationshipId" : "67",
+          "sourceId" : "23"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Electron 29, Node.js"
+      }, {
+        "components" : [ {
+          "description" : "Stores product categories with localized names, descriptions, and quantity settings",
+          "documentation" : { },
+          "id" : "28",
+          "name" : "productCategories.json",
+          "properties" : {
+            "structurizr.dsl.identifier" : "productCategoriesFile"
+          },
+          "tags" : "Element,Component",
+          "technology" : "JSON File"
+        }, {
+          "description" : "Stores current inventory items with quantities and check dates",
+          "documentation" : { },
+          "id" : "29",
+          "name" : "stock.json",
+          "properties" : {
+            "structurizr.dsl.identifier" : "stockFile"
+          },
+          "tags" : "Element,Component",
+          "technology" : "JSON File"
+        }, {
+          "description" : "Stores user preferences including language setting",
+          "documentation" : { },
+          "id" : "30",
+          "name" : "userProfile.json",
+          "properties" : {
+            "structurizr.dsl.identifier" : "userProfileFile"
+          },
+          "tags" : "Element,Component",
+          "technology" : "JSON File"
+        } ],
+        "description" : "Stores application data in JSON files in user data directory",
+        "documentation" : { },
+        "id" : "27",
+        "name" : "File System Storage",
+        "properties" : {
+          "structurizr.dsl.identifier" : "fileStorage"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "JSON Files"
+      }, {
+        "description" : "Stores application data in browser when running as web app",
+        "documentation" : { },
+        "id" : "31",
+        "name" : "Browser localStorage",
+        "properties" : {
+          "structurizr.dsl.identifier" : "localStorage"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "Web Storage API"
+      } ],
+      "description" : "Hybrid desktop/web application for managing emergency preparedness stock, tracking inventory, and generating shopping lists",
+      "documentation" : { },
+      "id" : "3",
+      "name" : "PrepPal",
+      "properties" : {
+        "structurizr.dsl.identifier" : "preppal"
+      },
+      "relationships" : [ {
+        "description" : "Downloads application updates from",
+        "destinationId" : "2",
+        "id" : "33",
+        "sourceId" : "3",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      } ],
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "PrepPal",
+  "properties" : {
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.error" : "40",
+    "structurizr.inspection.warning" : "0",
+    "structurizr.dsl" : "d29ya3NwYWNlICJQcmVwUGFsIiAiRW1lcmdlbmN5IFByZXBhcmVkbmVzcyBTdG9jayBNYW5hZ2VtZW50IEFwcGxpY2F0aW9uIiB7CgogICAgbW9kZWwgewogICAgICAgICMgUGVvcGxlCiAgICAgICAgdXNlciA9IHBlcnNvbiAiVXNlciIgIkEgcGVyc29uIG1hbmFnaW5nIHRoZWlyIGVtZXJnZW5jeSBwcmVwYXJlZG5lc3Mgc3RvY2sgaW52ZW50b3J5IgoKICAgICAgICAjIEV4dGVybmFsIFN5c3RlbXMKICAgICAgICBnaXRodWIgPSBzb2Z0d2FyZVN5c3RlbSAiR2l0SHViIFJlbGVhc2VzIiAiSG9zdHMgYXBwbGljYXRpb24gcmVsZWFzZXMgYW5kIHByb3ZpZGVzIGF1dG8tdXBkYXRlIGZ1bmN0aW9uYWxpdHkiICJFeHRlcm5hbCIKCiAgICAgICAgIyBQcmVwUGFsIFN5c3RlbQogICAgICAgIHByZXBwYWwgPSBzb2Z0d2FyZVN5c3RlbSAiUHJlcFBhbCIgIkh5YnJpZCBkZXNrdG9wL3dlYiBhcHBsaWNhdGlvbiBmb3IgbWFuYWdpbmcgZW1lcmdlbmN5IHByZXBhcmVkbmVzcyBzdG9jaywgdHJhY2tpbmcgaW52ZW50b3J5LCBhbmQgZ2VuZXJhdGluZyBzaG9wcGluZyBsaXN0cyIgewoKICAgICAgICAgICAgIyBDb250YWluZXJzCiAgICAgICAgICAgIHJlYWN0QXBwID0gY29udGFpbmVyICJSZWFjdCBXZWIgQXBwbGljYXRpb24iICJTaW5nbGUtcGFnZSBhcHBsaWNhdGlvbiBwcm92aWRpbmcgdGhlIHVzZXIgaW50ZXJmYWNlIGZvciBzdG9jayBtYW5hZ2VtZW50IiAiUmVhY3QgMTgsIFZpdGUsIE1hbnRpbmUgdjgiICJXZWJCcm93c2VyIiB7CgogICAgICAgICAgICAgICAgIyBTdGF0ZSBNYW5hZ2VtZW50IENvbXBvbmVudHMKICAgICAgICAgICAgICAgIHByb2R1Y3RDb250ZXh0ID0gY29tcG9uZW50ICJQcm9kdWN0Q29udGV4dCIgIk1hbmFnZXMgcHJvZHVjdCBjYXRlZ29yaWVzIGFuZCBzdG9jayBkYXRhIHN0YXRlLCBwcm92aWRlcyBDUlVEIG9wZXJhdGlvbnMgZm9yIGludmVudG9yeSIgIlJlYWN0IENvbnRleHQiCiAgICAgICAgICAgICAgICB1c2VyQ29udGV4dCA9IGNvbXBvbmVudCAiVXNlckNvbnRleHQiICJNYW5hZ2VzIHVzZXIgcHJvZmlsZSBhbmQgcHJlZmVyZW5jZXMgaW5jbHVkaW5nIGxhbmd1YWdlIHNldHRpbmdzIiAiUmVhY3QgQ29udGV4dCIKCiAgICAgICAgICAgICAgICAjIFNjcmVlbiBDb21wb25lbnRzCiAgICAgICAgICAgICAgICByZWNvbW1lbmRlZFNjcmVlbiA9IGNvbXBvbmVudCAiUmVjb21tZW5kZWRTY3JlZW4iICJEaXNwbGF5cyBhbmQgbWFuYWdlcyByZWNvbW1lbmRlZCBwcm9kdWN0IGNhdGVnb3JpZXMgYW5kIHF1YW50aXRpZXMgYmFzZWQgb24gaG91c2Vob2xkIHNpemUgYW5kIGRheXMgb2YgcHJlcGFyZWRuZXNzIiAiUmVhY3QgQ29tcG9uZW50IgogICAgICAgICAgICAgICAgY3VycmVudFNjcmVlbiA9IGNvbXBvbmVudCAiQ3VycmVudFNjcmVlbiIgIk1hbmFnZXMgY3VycmVudCBzdG9jayBpbnZlbnRvcnkgd2l0aCBleHBpcnkgZGF0ZSB0cmFja2luZyBhbmQgcXVhbnRpdHkgbWFuYWdlbWVudCIgIlJlYWN0IENvbXBvbmVudCIKICAgICAgICAgICAgICAgIHNob3BwaW5nTGlzdFNjcmVlbiA9IGNvbXBvbmVudCAiU2hvcHBpbmdMaXN0U2NyZWVuIiAiR2VuZXJhdGVzIHByaW50YWJsZSBzaG9wcGluZyBsaXN0cyBiYXNlZCBvbiBpbnZlbnRvcnkgZ2FwcyBiZXR3ZWVuIGN1cnJlbnQgYW5kIHRhcmdldCBxdWFudGl0aWVzIiAiUmVhY3QgQ29tcG9uZW50IgoKICAgICAgICAgICAgICAgICMgVUkgQ29tcG9uZW50cwogICAgICAgICAgICAgICAgaW5pdERhdGFiYXNlcyA9IGNvbXBvbmVudCAiSW5pdERhdGFiYXNlcyIgIk1vZGFsIGZvciBpbml0aWFsIHNldHVwIC0gY29sbGVjdHMgaG91c2Vob2xkIHNpemUgYW5kIHByZXBhcmVkbmVzcyBkdXJhdGlvbiIgIlJlYWN0IENvbXBvbmVudCIKICAgICAgICAgICAgICAgIGFkZENhdGVnb3J5TW9kYWwgPSBjb21wb25lbnQgIkFkZENhdGVnb3J5TW9kYWwiICJNb2RhbCBmb3JtIGZvciBhZGRpbmcgbmV3IHByb2R1Y3QgY2F0ZWdvcmllcyIgIlJlYWN0IENvbXBvbmVudCIKICAgICAgICAgICAgICAgIGVkaXRDYXRlZ29yeU1vZGFsID0gY29tcG9uZW50ICJFZGl0Q2F0ZWdvcnlNb2RhbCIgIk1vZGFsIGZvcm0gZm9yIGVkaXRpbmcgZXhpc3RpbmcgcHJvZHVjdCBjYXRlZ29yaWVzIiAiUmVhY3QgQ29tcG9uZW50IgogICAgICAgICAgICAgICAgYWRkU3RvY2tJdGVtTW9kYWwgPSBjb21wb25lbnQgIkFkZFN0b2NrSXRlbU1vZGFsIiAiTW9kYWwgZm9ybSBmb3IgYWRkaW5nIG5ldyBzdG9jayBpdGVtcyB0byBpbnZlbnRvcnkiICJSZWFjdCBDb21wb25lbnQiCiAgICAgICAgICAgICAgICBpdGVtRGF0ZUNoZWNrZXIgPSBjb21wb25lbnQgIkl0ZW1EYXRlQ2hlY2tlciIgIkNvbXBvbmVudCBmb3IgdHJhY2tpbmcgYW5kIHVwZGF0aW5nIGl0ZW0gY2hlY2sgZGF0ZXMgd2l0aCB2aXN1YWwgc3RhdGUgbWFjaGluZSIgIlJlYWN0IENvbXBvbmVudCIKICAgICAgICAgICAgICAgIGltcG9ydEV4cG9ydERhdGFiYXNlID0gY29tcG9uZW50ICJJbXBvcnRFeHBvcnREYXRhYmFzZSIgIkhhbmRsZXMgZGF0YSBleHBvcnQgYXMgSlNPTiBhbmQgaW1wb3J0IGZyb20gSlNPTiBmaWxlcyIgIlJlYWN0IENvbXBvbmVudCIKICAgICAgICAgICAgICAgIHJlc2V0RGF0YWJhc2VzID0gY29tcG9uZW50ICJSZXNldERhdGFiYXNlcyIgIlByb3ZpZGVzIGRhdGFiYXNlIHJlc2V0IGZ1bmN0aW9uYWxpdHkiICJSZWFjdCBDb21wb25lbnQiCgogICAgICAgICAgICAgICAgIyBVdGlsaXRpZXMKICAgICAgICAgICAgICAgIGZpbGVVdGlscyA9IGNvbXBvbmVudCAiRmlsZSBVdGlsaXRpZXMiICJBYnN0cmFjdGlvbiBsYXllciBmb3IgZmlsZSBJL08gLSBoYW5kbGVzIGJvdGggRWxlY3Ryb24gSVBDIGFuZCBsb2NhbFN0b3JhZ2UgdHJhbnNwYXJlbnRseSIgIkphdmFTY3JpcHQgTW9kdWxlIgogICAgICAgICAgICAgICAgZGF0ZVV0aWxzID0gY29tcG9uZW50ICJEYXRlIFV0aWxpdGllcyIgIkRhdGUgcGFyc2luZywgZm9ybWF0dGluZywgYW5kIGNvbXBhcmlzb24gZnVuY3Rpb25zIiAiSmF2YVNjcmlwdCBNb2R1bGUiCiAgICAgICAgICAgICAgICBub3RpZmljYXRpb25VdGlscyA9IGNvbXBvbmVudCAiTm90aWZpY2F0aW9uIFV0aWxpdGllcyIgIlRvYXN0IG5vdGlmaWNhdGlvbiBtYW5hZ2VtZW50IHVzaW5nIE1hbnRpbmUgbm90aWZpY2F0aW9ucyIgIkphdmFTY3JpcHQgTW9kdWxlIgogICAgICAgICAgICAgICAgYnJvd3NlclV0aWxzID0gY29tcG9uZW50ICJCcm93c2VyIFV0aWxpdGllcyIgIlJ1bnRpbWUgZW52aXJvbm1lbnQgZGV0ZWN0aW9uIGFuZCBVUkwgb3BlbmluZyIgIkphdmFTY3JpcHQgTW9kdWxlIgoKICAgICAgICAgICAgICAgICMgQ29yZSBBcHAKICAgICAgICAgICAgICAgIGFwcFNoZWxsID0gY29tcG9uZW50ICJBcHAgU2hlbGwiICJNYWluIGFwcGxpY2F0aW9uIHNoZWxsIHdpdGggbmF2aWdhdGlvbiwgaGVhZGVyLCBhbmQgcm91dGluZyIgIlJlYWN0IENvbXBvbmVudCIKICAgICAgICAgICAgICAgIHJvdXRlciA9IGNvbXBvbmVudCAiUm91dGVyIiAiSGFzaFJvdXRlciBjb25maWd1cmF0aW9uIGZvciBFbGVjdHJvbiBjb21wYXRpYmlsaXR5IiAiUmVhY3QgUm91dGVyIHY3IgogICAgICAgICAgICB9CgogICAgICAgICAgICBlbGVjdHJvbk1haW4gPSBjb250YWluZXIgIkVsZWN0cm9uIE1haW4gUHJvY2VzcyIgIkRlc2t0b3AgYXBwbGljYXRpb24gd3JhcHBlciBwcm92aWRpbmcgbmF0aXZlIE9TIGludGVncmF0aW9uIGFuZCBmaWxlIHN5c3RlbSBhY2Nlc3MiICJFbGVjdHJvbiAyOSwgTm9kZS5qcyIgewoKICAgICAgICAgICAgICAgIHdpbmRvd01hbmFnZXIgPSBjb21wb25lbnQgIldpbmRvdyBNYW5hZ2VyIiAiQ3JlYXRlcyBhbmQgbWFuYWdlcyB0aGUgQnJvd3NlcldpbmRvdyBsaWZlY3ljbGUiICJFbGVjdHJvbiBCcm93c2VyV2luZG93IgogICAgICAgICAgICAgICAgaXBjSGFuZGxlcnMgPSBjb21wb25lbnQgIklQQyBIYW5kbGVycyIgIkhhbmRsZXMgaW50ZXItcHJvY2VzcyBjb21tdW5pY2F0aW9uIGZvciBmaWxlIG9wZXJhdGlvbnMiICJFbGVjdHJvbiBJUEMiCiAgICAgICAgICAgICAgICBhdXRvVXBkYXRlciA9IGNvbXBvbmVudCAiQXV0by1VcGRhdGVyIiAiQ2hlY2tzIGZvciBhbmQgYXBwbGllcyBhcHBsaWNhdGlvbiB1cGRhdGVzIGZyb20gR2l0SHViIHJlbGVhc2VzIiAiZWxlY3Ryb24tdXBkYXRlciIKICAgICAgICAgICAgfQoKICAgICAgICAgICAgZmlsZVN0b3JhZ2UgPSBjb250YWluZXIgIkZpbGUgU3lzdGVtIFN0b3JhZ2UiICJTdG9yZXMgYXBwbGljYXRpb24gZGF0YSBpbiBKU09OIGZpbGVzIGluIHVzZXIgZGF0YSBkaXJlY3RvcnkiICJKU09OIEZpbGVzIiAiRGF0YWJhc2UiIHsKICAgICAgICAgICAgICAgIHByb2R1Y3RDYXRlZ29yaWVzRmlsZSA9IGNvbXBvbmVudCAicHJvZHVjdENhdGVnb3JpZXMuanNvbiIgIlN0b3JlcyBwcm9kdWN0IGNhdGVnb3JpZXMgd2l0aCBsb2NhbGl6ZWQgbmFtZXMsIGRlc2NyaXB0aW9ucywgYW5kIHF1YW50aXR5IHNldHRpbmdzIiAiSlNPTiBGaWxlIgogICAgICAgICAgICAgICAgc3RvY2tGaWxlID0gY29tcG9uZW50ICJzdG9jay5qc29uIiAiU3RvcmVzIGN1cnJlbnQgaW52ZW50b3J5IGl0ZW1zIHdpdGggcXVhbnRpdGllcyBhbmQgY2hlY2sgZGF0ZXMiICJKU09OIEZpbGUiCiAgICAgICAgICAgICAgICB1c2VyUHJvZmlsZUZpbGUgPSBjb21wb25lbnQgInVzZXJQcm9maWxlLmpzb24iICJTdG9yZXMgdXNlciBwcmVmZXJlbmNlcyBpbmNsdWRpbmcgbGFuZ3VhZ2Ugc2V0dGluZyIgIkpTT04gRmlsZSIKICAgICAgICAgICAgfQoKICAgICAgICAgICAgbG9jYWxTdG9yYWdlID0gY29udGFpbmVyICJCcm93c2VyIGxvY2FsU3RvcmFnZSIgIlN0b3JlcyBhcHBsaWNhdGlvbiBkYXRhIGluIGJyb3dzZXIgd2hlbiBydW5uaW5nIGFzIHdlYiBhcHAiICJXZWIgU3RvcmFnZSBBUEkiICJEYXRhYmFzZSIKICAgICAgICB9CgogICAgICAgICMgUmVsYXRpb25zaGlwcyAtIFN5c3RlbSBDb250ZXh0IChMZXZlbCAxKQogICAgICAgIHVzZXIgLT4gcHJlcHBhbCAiTWFuYWdlcyBlbWVyZ2VuY3kgc3RvY2sgaW52ZW50b3J5IHVzaW5nIgogICAgICAgIHByZXBwYWwgLT4gZ2l0aHViICJEb3dubG9hZHMgYXBwbGljYXRpb24gdXBkYXRlcyBmcm9tIiAiSFRUUFMiCgogICAgICAgICMgUmVsYXRpb25zaGlwcyAtIENvbnRhaW5lciAoTGV2ZWwgMikKICAgICAgICB1c2VyIC0+IHJlYWN0QXBwICJWaWV3cyBhbmQgbWFuYWdlcyBzdG9jayB0aHJvdWdoIiAiSFRUUFMvRmlsZSBQcm90b2NvbCIKICAgICAgICByZWFjdEFwcCAtPiBlbGVjdHJvbk1haW4gIkNvbW11bmljYXRlcyB2aWEiICJFbGVjdHJvbiBJUEMiCiAgICAgICAgZWxlY3Ryb25NYWluIC0+IGZpbGVTdG9yYWdlICJSZWFkcyBhbmQgd3JpdGVzIGRhdGEgdG8iICJOb2RlLmpzIGZzIgogICAgICAgIGVsZWN0cm9uTWFpbiAtPiBnaXRodWIgIkNoZWNrcyBmb3IgdXBkYXRlcyBmcm9tIiAiSFRUUFMiCiAgICAgICAgcmVhY3RBcHAgLT4gbG9jYWxTdG9yYWdlICJSZWFkcyBhbmQgd3JpdGVzIGRhdGEgdG8iICJXZWIgU3RvcmFnZSBBUEkiCgogICAgICAgICMgUmVsYXRpb25zaGlwcyAtIENvbXBvbmVudHMgKExldmVsIDMpCgogICAgICAgICMgQXBwIFNoZWxsIHJlbGF0aW9uc2hpcHMKICAgICAgICBhcHBTaGVsbCAtPiByb3V0ZXIgIkNvbnRhaW5zIgogICAgICAgIHJvdXRlciAtPiByZWNvbW1lbmRlZFNjcmVlbiAiUm91dGVzIHRvIC9yZWNvbW1lbmRlZCIKICAgICAgICByb3V0ZXIgLT4gY3VycmVudFNjcmVlbiAiUm91dGVzIHRvIC9jdXJyZW50IgogICAgICAgIHJvdXRlciAtPiBzaG9wcGluZ0xpc3RTY3JlZW4gIlJvdXRlcyB0byAvc2hvcHBpbmctbGlzdCIKCiAgICAgICAgIyBDb250ZXh0IHJlbGF0aW9uc2hpcHMKICAgICAgICBhcHBTaGVsbCAtPiBwcm9kdWN0Q29udGV4dCAiUHJvdmlkZXMgdG8gY2hpbGRyZW4iCiAgICAgICAgYXBwU2hlbGwgLT4gdXNlckNvbnRleHQgIlByb3ZpZGVzIHRvIGNoaWxkcmVuIgoKICAgICAgICAjIFNjcmVlbiB0byBDb250ZXh0IHJlbGF0aW9uc2hpcHMKICAgICAgICByZWNvbW1lbmRlZFNjcmVlbiAtPiBwcm9kdWN0Q29udGV4dCAiUmVhZHMgY2F0ZWdvcmllcywgY2FsbHMgYWRkQ2F0ZWdvcnksIHVwZGF0ZUNhdGVnb3J5LCBkZWxldGVDYXRlZ29yeSIKICAgICAgICBjdXJyZW50U2NyZWVuIC0+IHByb2R1Y3RDb250ZXh0ICJSZWFkcyBzdG9jayBhbmQgY2F0ZWdvcmllcywgY2FsbHMgc2F2ZVN0b2NrRGF0YSIKICAgICAgICBzaG9wcGluZ0xpc3RTY3JlZW4gLT4gcHJvZHVjdENvbnRleHQgIlJlYWRzIHN0b2NrIGFuZCBjYXRlZ29yaWVzIHRvIGNhbGN1bGF0ZSBzaG9wcGluZyBuZWVkcyIKCiAgICAgICAgIyBTY3JlZW4gdG8gVUkgQ29tcG9uZW50IHJlbGF0aW9uc2hpcHMKICAgICAgICByZWNvbW1lbmRlZFNjcmVlbiAtPiBhZGRDYXRlZ29yeU1vZGFsICJPcGVucyBmb3IgbmV3IGNhdGVnb3J5IgogICAgICAgIHJlY29tbWVuZGVkU2NyZWVuIC0+IGVkaXRDYXRlZ29yeU1vZGFsICJPcGVucyBmb3IgY2F0ZWdvcnkgZWRpdGluZyIKICAgICAgICByZWNvbW1lbmRlZFNjcmVlbiAtPiBpbml0RGF0YWJhc2VzICJTaG93cyB3aGVuIG5vIGRhdGEgZXhpc3RzIgogICAgICAgIHJlY29tbWVuZGVkU2NyZWVuIC0+IHJlc2V0RGF0YWJhc2VzICJDb250YWlucyByZXNldCBidXR0b24iCiAgICAgICAgY3VycmVudFNjcmVlbiAtPiBhZGRTdG9ja0l0ZW1Nb2RhbCAiT3BlbnMgZm9yIG5ldyBzdG9jayBpdGVtIgogICAgICAgIGN1cnJlbnRTY3JlZW4gLT4gaXRlbURhdGVDaGVja2VyICJVc2VzIGZvciBkYXRlIHRyYWNraW5nIgoKICAgICAgICAjIENvbnRleHQgdG8gVXRpbGl0aWVzIHJlbGF0aW9uc2hpcHMKICAgICAgICBwcm9kdWN0Q29udGV4dCAtPiBmaWxlVXRpbHMgIlVzZXMgZm9yIGRhdGEgcGVyc2lzdGVuY2UiCiAgICAgICAgdXNlckNvbnRleHQgLT4gZmlsZVV0aWxzICJVc2VzIGZvciBwcm9maWxlIHBlcnNpc3RlbmNlIgoKICAgICAgICAjIEZpbGUgVXRpbHMgdG8gU3RvcmFnZSByZWxhdGlvbnNoaXBzCiAgICAgICAgZmlsZVV0aWxzIC0+IGlwY0hhbmRsZXJzICJDYWxscyB2aWEgd2luZG93LmVsZWN0cm9uLmlwY1JlbmRlcmVyIiAiSVBDIgogICAgICAgIGZpbGVVdGlscyAtPiBsb2NhbFN0b3JhZ2UgIlJlYWRzL3dyaXRlcyB3aGVuIGluIGJyb3dzZXIgbW9kZSIgIldlYiBTdG9yYWdlIEFQSSIKCiAgICAgICAgIyBJUEMgSGFuZGxlcnMgdG8gRmlsZSBTdG9yYWdlIHJlbGF0aW9uc2hpcHMKICAgICAgICBpcGNIYW5kbGVycyAtPiBwcm9kdWN0Q2F0ZWdvcmllc0ZpbGUgIlJlYWRzIGFuZCB3cml0ZXMiCiAgICAgICAgaXBjSGFuZGxlcnMgLT4gc3RvY2tGaWxlICJSZWFkcyBhbmQgd3JpdGVzIgogICAgICAgIGlwY0hhbmRsZXJzIC0+IHVzZXJQcm9maWxlRmlsZSAiUmVhZHMgYW5kIHdyaXRlcyIKCiAgICAgICAgIyBFbGVjdHJvbiBNYWluIFByb2Nlc3MgaW50ZXJuYWwgcmVsYXRpb25zaGlwcwogICAgICAgIHdpbmRvd01hbmFnZXIgLT4gcmVhY3RBcHAgIkxvYWRzIgogICAgICAgIGF1dG9VcGRhdGVyIC0+IGdpdGh1YiAiRmV0Y2hlcyByZWxlYXNlcyBmcm9tIiAiSFRUUFMiCgogICAgICAgICMgSW1wb3J0L0V4cG9ydCByZWxhdGlvbnNoaXBzCiAgICAgICAgaW1wb3J0RXhwb3J0RGF0YWJhc2UgLT4gcHJvZHVjdENvbnRleHQgIkltcG9ydHMgZGF0YSB2aWEiCiAgICAgICAgaW1wb3J0RXhwb3J0RGF0YWJhc2UgLT4gZmlsZVV0aWxzICJFeHBvcnRzIGRhdGEgdmlhIgoKICAgICAgICAjIFVJIENvbXBvbmVudCB0byBVdGlsaXRpZXMgcmVsYXRpb25zaGlwcwogICAgICAgIGFkZENhdGVnb3J5TW9kYWwgLT4gcHJvZHVjdENvbnRleHQgIkNhbGxzIGFkZENhdGVnb3J5IgogICAgICAgIGVkaXRDYXRlZ29yeU1vZGFsIC0+IHByb2R1Y3RDb250ZXh0ICJDYWxscyB1cGRhdGVDYXRlZ29yeSIKICAgICAgICBhZGRTdG9ja0l0ZW1Nb2RhbCAtPiBwcm9kdWN0Q29udGV4dCAiQWRkcyB0byBzdG9jayIKICAgICAgICBpdGVtRGF0ZUNoZWNrZXIgLT4gZGF0ZVV0aWxzICJVc2VzIGZvciBkYXRlIGNhbGN1bGF0aW9ucyIKICAgICAgICBpdGVtRGF0ZUNoZWNrZXIgLT4gcHJvZHVjdENvbnRleHQgIlVwZGF0ZXMgY2hlY2sgZGF0ZXMgdmlhIgoKICAgICAgICAjIE5vdGlmaWNhdGlvbiByZWxhdGlvbnNoaXBzCiAgICAgICAgcHJvZHVjdENvbnRleHQgLT4gbm90aWZpY2F0aW9uVXRpbHMgIlNob3dzIHNhdmUgc3RhdHVzIgogICAgICAgIHVzZXJDb250ZXh0IC0+IG5vdGlmaWNhdGlvblV0aWxzICJTaG93cyBzYXZlIHN0YXR1cyIKICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgIyBMZXZlbCAxOiBTeXN0ZW0gQ29udGV4dAogICAgICAgIHN5c3RlbUNvbnRleHQgcHJlcHBhbCAiU3lzdGVtQ29udGV4dCIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgYXV0b0xheW91dAogICAgICAgICAgICB0aXRsZSAiUHJlcFBhbCAtIFN5c3RlbSBDb250ZXh0IgogICAgICAgICAgICBkZXNjcmlwdGlvbiAiU2hvd3MgUHJlcFBhbCBzeXN0ZW0gYW5kIGl0cyBleHRlcm5hbCBkZXBlbmRlbmNpZXMiCiAgICAgICAgfQoKICAgICAgICAjIExldmVsIDI6IENvbnRhaW5lcgogICAgICAgIGNvbnRhaW5lciBwcmVwcGFsICJDb250YWluZXJzIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0CiAgICAgICAgICAgIHRpdGxlICJQcmVwUGFsIC0gQ29udGFpbmVyIERpYWdyYW0iCiAgICAgICAgICAgIGRlc2NyaXB0aW9uICJTaG93cyB0aGUgY29udGFpbmVycyB0aGF0IG1ha2UgdXAgdGhlIFByZXBQYWwgYXBwbGljYXRpb24iCiAgICAgICAgfQoKICAgICAgICAjIExldmVsIDM6IENvbXBvbmVudCAtIFJlYWN0IEFwcGxpY2F0aW9uCiAgICAgICAgY29tcG9uZW50IHJlYWN0QXBwICJSZWFjdEFwcENvbXBvbmVudHMiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGF1dG9MYXlvdXQKICAgICAgICAgICAgdGl0bGUgIlJlYWN0IFdlYiBBcHBsaWNhdGlvbiAtIENvbXBvbmVudHMiCiAgICAgICAgICAgIGRlc2NyaXB0aW9uICJTaG93cyB0aGUgaW50ZXJuYWwgY29tcG9uZW50cyBvZiB0aGUgUmVhY3Qgd2ViIGFwcGxpY2F0aW9uIgogICAgICAgIH0KCiAgICAgICAgIyBMZXZlbCAzOiBDb21wb25lbnQgLSBFbGVjdHJvbiBNYWluIFByb2Nlc3MKICAgICAgICBjb21wb25lbnQgZWxlY3Ryb25NYWluICJFbGVjdHJvbk1haW5Db21wb25lbnRzIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0CiAgICAgICAgICAgIHRpdGxlICJFbGVjdHJvbiBNYWluIFByb2Nlc3MgLSBDb21wb25lbnRzIgogICAgICAgICAgICBkZXNjcmlwdGlvbiAiU2hvd3MgdGhlIGludGVybmFsIGNvbXBvbmVudHMgb2YgdGhlIEVsZWN0cm9uIG1haW4gcHJvY2VzcyIKICAgICAgICB9CgogICAgICAgICMgTGV2ZWwgMzogQ29tcG9uZW50IC0gRmlsZSBTdG9yYWdlCiAgICAgICAgY29tcG9uZW50IGZpbGVTdG9yYWdlICJGaWxlU3RvcmFnZUNvbXBvbmVudHMiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGF1dG9MYXlvdXQKICAgICAgICAgICAgdGl0bGUgIkZpbGUgU3lzdGVtIFN0b3JhZ2UgLSBDb21wb25lbnRzIgogICAgICAgICAgICBkZXNjcmlwdGlvbiAiU2hvd3MgdGhlIGRhdGEgZmlsZXMgc3RvcmVkIGJ5IHRoZSBhcHBsaWNhdGlvbiIKICAgICAgICB9CgogICAgICAgIHN0eWxlcyB7CiAgICAgICAgICAgIGVsZW1lbnQgIlNvZnR3YXJlIFN5c3RlbSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjMTE2OGJkCiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiRXh0ZXJuYWwiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzk5OTk5OQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlBlcnNvbiIgewogICAgICAgICAgICAgICAgc2hhcGUgcGVyc29uCiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwODQyN2IKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJDb250YWluZXIiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzQzOGRkNQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIldlYkJyb3dzZXIiIHsKICAgICAgICAgICAgICAgIHNoYXBlIFdlYkJyb3dzZXIKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJEYXRhYmFzZSIgewogICAgICAgICAgICAgICAgc2hhcGUgQ3lsaW5kZXIKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJDb21wb25lbnQiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzg1YmJmMAogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQoKfQ=="
+  },
+  "views" : {
+    "componentViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "4",
+      "description" : "Shows the internal components of the React web application",
+      "dimensions" : {
+        "height" : 4439,
+        "width" : 6773
+      },
+      "elements" : [ {
+        "id" : "5",
+        "x" : 3897,
+        "y" : 2582
+      }, {
+        "id" : "6",
+        "x" : 5968,
+        "y" : 2582
+      }, {
+        "id" : "7",
+        "x" : 3106,
+        "y" : 1382
+      }, {
+        "id" : "8",
+        "x" : 5176,
+        "y" : 1382
+      }, {
+        "id" : "9",
+        "x" : 1826,
+        "y" : 1382
+      }, {
+        "id" : "10",
+        "x" : 1606,
+        "y" : 1982
+      }, {
+        "id" : "11",
+        "x" : 4164,
+        "y" : 1982
+      }, {
+        "id" : "12",
+        "x" : 2356,
+        "y" : 1982
+      }, {
+        "id" : "13",
+        "x" : 4914,
+        "y" : 1982
+      }, {
+        "id" : "14",
+        "x" : 5972,
+        "y" : 1982
+      }, {
+        "id" : "15",
+        "x" : 239,
+        "y" : 1982
+      }, {
+        "id" : "16",
+        "x" : 3106,
+        "y" : 1982
+      }, {
+        "id" : "17",
+        "x" : 3897,
+        "y" : 3182
+      }, {
+        "id" : "18",
+        "x" : 5218,
+        "y" : 2582
+      }, {
+        "id" : "19",
+        "x" : 5306,
+        "y" : 3182
+      }, {
+        "id" : "20",
+        "x" : 5068,
+        "y" : 182
+      }, {
+        "id" : "21",
+        "x" : 3106,
+        "y" : 182
+      }, {
+        "id" : "22",
+        "x" : 3106,
+        "y" : 782
+      }, {
+        "id" : "23",
+        "x" : 3522,
+        "y" : 3782
+      }, {
+        "id" : "31",
+        "x" : 4272,
+        "y" : 3782
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "ReactAppComponents",
+      "name" : "Component View: PrepPal - React Web Application",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "39"
+      }, {
+        "id" : "40"
+      }, {
+        "id" : "41"
+      }, {
+        "id" : "42"
+      }, {
+        "id" : "43",
+        "vertices" : [ {
+          "x" : 1676,
+          "y" : 1382
+        }, {
+          "x" : 1381,
+          "y" : 1982
+        }, {
+          "x" : 1381,
+          "y" : 2282
+        } ]
+      }, {
+        "id" : "44",
+        "vertices" : [ {
+          "x" : 5776,
+          "y" : 1382
+        }, {
+          "x" : 6572,
+          "y" : 1982
+        }, {
+          "x" : 6572,
+          "y" : 2282
+        } ]
+      }, {
+        "id" : "45",
+        "vertices" : [ {
+          "x" : 3706,
+          "y" : 1982
+        } ]
+      }, {
+        "id" : "46",
+        "vertices" : [ {
+          "x" : 5514,
+          "y" : 1982
+        }, {
+          "x" : 5514,
+          "y" : 2282
+        } ]
+      }, {
+        "id" : "47",
+        "vertices" : [ {
+          "x" : 1456,
+          "y" : 1982
+        }, {
+          "x" : 1456,
+          "y" : 2282
+        } ]
+      }, {
+        "id" : "48"
+      }, {
+        "id" : "49"
+      }, {
+        "id" : "50"
+      }, {
+        "id" : "51"
+      }, {
+        "id" : "52"
+      }, {
+        "id" : "53"
+      }, {
+        "id" : "54"
+      }, {
+        "id" : "55",
+        "vertices" : [ {
+          "x" : 5818,
+          "y" : 2882
+        } ]
+      }, {
+        "id" : "57"
+      }, {
+        "id" : "59"
+      }, {
+        "id" : "70",
+        "vertices" : [ {
+          "x" : 914,
+          "y" : 2282
+        } ]
+      }, {
+        "id" : "71"
+      }, {
+        "id" : "72"
+      }, {
+        "id" : "73",
+        "vertices" : [ {
+          "x" : 2956,
+          "y" : 2282
+        } ]
+      }, {
+        "id" : "74"
+      }, {
+        "id" : "75"
+      }, {
+        "id" : "76",
+        "vertices" : [ {
+          "x" : 5747,
+          "y" : 2282
+        } ]
+      }, {
+        "id" : "77"
+      }, {
+        "id" : "78"
+      } ],
+      "title" : "React Web Application - Components"
+    }, {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "23",
+      "description" : "Shows the internal components of the Electron main process",
+      "elements" : [ {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "24",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "25",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "26",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "27",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "ElectronMainComponents",
+      "name" : "Component View: PrepPal - Electron Main Process",
+      "order" : 4,
+      "relationships" : [ {
+        "id" : "58"
+      }, {
+        "id" : "61"
+      }, {
+        "id" : "67"
+      }, {
+        "id" : "69"
+      } ],
+      "title" : "Electron Main Process - Components"
+    }, {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "27",
+      "description" : "Shows the data files stored by the application",
+      "elements" : [ {
+        "id" : "23",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "28",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "29",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "30",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "FileStorageComponents",
+      "name" : "Component View: PrepPal - File System Storage",
+      "order" : 5,
+      "relationships" : [ {
+        "id" : "62"
+      }, {
+        "id" : "64"
+      }, {
+        "id" : "66"
+      } ],
+      "title" : "File System Storage - Components"
+    } ],
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "ReactAppComponents",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#85bbf0",
+          "color" : "#000000",
+          "tag" : "Component"
+        }, {
+          "background" : "#438dd5",
+          "color" : "#ffffff",
+          "tag" : "Container"
+        }, {
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        }, {
+          "background" : "#999999",
+          "color" : "#ffffff",
+          "tag" : "External"
+        }, {
+          "background" : "#08427b",
+          "color" : "#ffffff",
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "background" : "#1168bd",
+          "color" : "#ffffff",
+          "tag" : "Software System"
+        }, {
+          "shape" : "WebBrowser",
+          "tag" : "WebBrowser"
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "Shows the containers that make up the PrepPal application",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "23",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "27",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "31",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Containers",
+      "name" : "Container View: PrepPal",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "34"
+      }, {
+        "id" : "35"
+      }, {
+        "id" : "36"
+      }, {
+        "id" : "37"
+      }, {
+        "id" : "38"
+      }, {
+        "id" : "68"
+      } ],
+      "softwareSystemId" : "3",
+      "title" : "PrepPal - Container Diagram"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "Shows PrepPal system and its external dependencies",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "SystemContext",
+      "name" : "System Context View: PrepPal",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "32"
+      }, {
+        "id" : "33"
+      } ],
+      "softwareSystemId" : "3",
+      "title" : "PrepPal - System Context"
+    } ]
+  }
+}

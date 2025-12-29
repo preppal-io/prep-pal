@@ -52,6 +52,23 @@ This will create distribution files in the dist folder:
 
 Further reading: [PUBLISHING.md](./PUBLISHING.md)
 
+## Architecture Documentation
+
+The project's architecture is documented using Structurizr DSL in the `architecture/` folder.
+
+To visualize the architecture diagrams:
+
+```bash
+docker run -it --rm -p 8080:8080 -v $(pwd)/architecture:/usr/local/structurizr structurizr/lite
+```
+
+Then open your browser to http://localhost:8080
+
+The documentation includes:
+- Level 1: System Context diagram
+- Level 2: Container diagram
+- Level 3: Component diagrams for React App, Electron Main Process, and File Storage
+
 ## Troubleshooting
 
 If you get errors about missing modules:
