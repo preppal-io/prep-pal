@@ -209,7 +209,11 @@ function CurrentScreen() {
       
       // Add category row
       tableRows.push(
-        <Table.Tr key={`category-${group.category.id}`} style={{ borderTop: `1px solid var(--mantine-color-blue-1)` }}>
+        <Table.Tr
+          key={`category-${group.category.id}`}
+          style={{ borderTop: `1px solid var(--mantine-color-blue-1)`, cursor: 'pointer' }}
+          onDoubleClick={() => handleAddItem(group.category)}
+        >
           <Table.Td>
             <Group gap="xs" wrap='nowrap'>
               {(hasLowStock || group.hasExpired) && (

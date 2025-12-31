@@ -198,7 +198,14 @@ function RecommendedScreen() {
 
 
   const rows = data.map((item, index) => (
-    <Table.Tr key={item.productType}>
+    <Table.Tr
+      key={item.productType}
+      onDoubleClick={() => {
+        setSelectedCategory(item)
+        setEditModalOpened(true)
+      }}
+      style={{ cursor: 'pointer' }}
+    >
       <Table.Td>{item.productType}</Table.Td>
       <Table.Td>{item.description}</Table.Td>
       <Table.Td style={{ minWidth: '50px', maxWidth: '80px' }}>
