@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build && cp -r landing/* dist/",
+    "build": "vite build",
     "serve": "vite preview",
     "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run electron:start\"",
     "electron:start": "wait-on tcp:3000 && electron .",

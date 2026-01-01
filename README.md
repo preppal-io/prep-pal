@@ -35,10 +35,6 @@ To run the app in the browser during development with hot reload:
 
 `npm run start`
 
-### Landing page
-
-`npx serve landing`
-
 ## Build & Distribution
 
 To create installable packages:

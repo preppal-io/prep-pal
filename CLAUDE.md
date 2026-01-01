@@ -7,7 +7,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Running the Application
 - `npm start` - Run React development server (browser-only)
 - `npm run electron:serve` - Run full Electron app in development mode with hot reload
-- `npx serve landing` - Serve the landing page locally
 
 ### Building
 - `npm run build` - Build React app for production
@@ -57,10 +56,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Uses custom Vite plugin to copy Electron files to build directory
 
 ### Build Process
-- Vite builds React app to `dist/app/`
+- Vite builds React app to `dist/`
 - Custom plugin copies `electron/main.js` to `build/electron/main.js`
 - Electron-builder packages the complete application
-- Landing page files copied to `dist/` root during build
 
 ### Internationalization
 - Uses Littera library with locale switching
