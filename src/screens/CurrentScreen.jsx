@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Container, Title, Table, Loader, Tooltip, useMantineTheme, ActionIcon, Group, Text, NumberInput } from '@mantine/core'
 import InitDatabases from '../components/InitDatabases'
+import FilterComponent from '../components/FilterComponent'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { useProductContext } from '../context/ProductContext'
 import { Trash, Info, PlusCircle, WarningDiamond } from '@phosphor-icons/react'
@@ -21,6 +22,8 @@ function CurrentScreen() {
   const { filesExist, productData, loading, saveStockData } = useProductContext()
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState(null)
+  const [searchFilter, setSearchFilter] = useState('')
+  const [categoryType, setCategoryType] = useState('all')
 
   const translated = useLittera(translations)
   
@@ -129,7 +132,15 @@ function CurrentScreen() {
     // Convert to array and sort by category id
     return Object.values(grouped).sort((a, b) => a.category.id - b.category.id)
   }, [productData.stock, productData.baseCategories, translated])
-  
+
+  // Filter grouped stock items by category name
+  const filteredGroupedStockItems = useMemo(() => {
+    if (!searchFilter.trim()) return groupedStockItems
+    return groupedStockItems.filter(group =>
+      group.category.productType.toLowerCase().includes(searchFilter.toLowerCase())
+    )
+  }, [groupedStockItems, searchFilter])
+
   const handleAddItem = (category) => {
     setSelectedCategory(category)
     setModalOpen(true)
@@ -183,8 +194,8 @@ function CurrentScreen() {
   // Generate table rows
   const rows = useMemo(() => {
     const tableRows = []
-    
-    groupedStockItems.forEach(group => {
+
+    filteredGroupedStockItems.forEach(group => {
       const categoryQuantity = group.category.quantityOverride || group.category.quantity
       const hasLowStock = group.stockPercentage < LOW_STOCK_THRESHOLD
       let stockLevelColor = group.stockPercentage > LOW_STOCK_THRESHOLD ? 
@@ -297,7 +308,7 @@ function CurrentScreen() {
     })
     
     return tableRows
-  }, [groupedStockItems, theme.colors, translated])
+  }, [filteredGroupedStockItems, theme.colors, translated])
 
   return (
     <Container fluid>
@@ -313,7 +324,15 @@ function CurrentScreen() {
               <Loader size="xl" />
             </div>
           ) : (
-            <Table withRowBorders={false}>
+            <>
+              <FilterComponent
+                searchValue={searchFilter}
+                onSearchChange={setSearchFilter}
+                categoryType={categoryType}
+                onCategoryTypeChange={setCategoryType}
+              />
+
+              <Table withRowBorders={false}>
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th></Table.Th>
@@ -323,9 +342,10 @@ function CurrentScreen() {
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>{rows}</Table.Tbody>
-            </Table>
+              </Table>
+            </>
           )}
-          
+
           {selectedCategory && (
             <AddStockItemModal
               opened={modalOpen}

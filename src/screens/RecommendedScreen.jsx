@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Container, NumberInput, Table, Title, Text, Group, Loader, Alert, ActionIcon, Tooltip, Button } from '@mantine/core'
 import { Pencil, ShoppingCart, Trash, Plus } from '@phosphor-icons/react'
 import EditCategoryModal from '../components/EditCategoryModal'
 import AddCategoryModal from '../components/AddCategoryModal'
 import InitDatabases from '../components/InitDatabases'
+import FilterComponent from '../components/FilterComponent'
 import { useProductContext } from '../context/ProductContext'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { setSaveStatus } from '../utils/notificationUtils'
@@ -110,6 +111,8 @@ function RecommendedScreen() {
   const [editModalOpened, setEditModalOpened] = useState(false)
   const [addModalOpened, setAddModalOpened] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState(null)
+  const [searchFilter, setSearchFilter] = useState('')
+  const [categoryType, setCategoryType] = useState('all')
 
   const translated = useLittera(translations)
 
@@ -121,21 +124,22 @@ function RecommendedScreen() {
   }, [productData])
 
   // Update local state immediately without debounce
-  const updateLocalState = (index, value, item) => {
-    const updatedData = [...data]
-    updatedData[index] = { ...item, quantityOverride: value }
+  const updateLocalState = (value, item) => {
+    const updatedData = data.map(cat =>
+      cat.id === item.id ? { ...cat, quantityOverride: value } : cat
+    )
     setData(updatedData)
   }
   
   // Handle quantity override change with debounce for saving to disk
-  const saveChanges = async (index, value, item) => {
+  const saveChanges = async (value, item) => {
     try {
       setSaveStatus({ saving: true, success: null, message: translated.saveStatus, id: 'save-status' })
-      
+
       const success = await updateCategory(item.id, { quantityOverride: value })
-      setSaveStatus({ 
-        saving: false, 
-        success: success, 
+      setSaveStatus({
+        saving: false,
+        success: success,
         message: success ? translated.saveSuccess : translated.saveError,
         id: 'save-status'
       })
@@ -143,17 +147,17 @@ function RecommendedScreen() {
       setSaveStatus({ saving: false, success: false, message: translated.saveError, id: 'save-status' })
     }
   }
-  
+
   // Debounced version of saveChanges (500ms delay)
   const debouncedSaveChanges = useDebouncedCallback(saveChanges, 500)
-  
+
   // Combined function to update state immediately and save with debounce
-  const handleQuantityChange = (index, value, item) => {
+  const handleQuantityChange = (value, item) => {
     // Update local state immediately
-    updateLocalState(index, value, item)
-    
+    updateLocalState(value, item)
+
     // Save to disk with debounce
-    debouncedSaveChanges(index, value, item)
+    debouncedSaveChanges(value, item)
   }
 
   const quantity = (item) => {
@@ -169,35 +173,42 @@ function RecommendedScreen() {
 
   const handleDeleteCategory = async (category) => {
     try {
-      setSaveStatus({ 
-        saving: true, 
-        success: null, 
+      setSaveStatus({
+        saving: true,
+        success: null,
         message: translated.deletingCategory(category.productType),
         id: 'save-category'
       })
-      
+
       const success = await deleteCategory(category.id)
-      
-      setSaveStatus({ 
-        saving: false, 
-        success: success, 
-        message: success 
+
+      setSaveStatus({
+        saving: false,
+        success: success,
+        message: success
           ? translated.categoryDeleted(category.productType)
           : translated.categoryNotDeleted(category.productType),
         id: 'save-category'
       })
     } catch (error) {
-      setSaveStatus({ 
-        saving: false, 
-        success: false, 
+      setSaveStatus({
+        saving: false,
+        success: false,
         message: translated.errorDeletingCategory(error.message),
         id: 'save-category'
       })
     }
   }
 
+  // Filter categories by search text
+  const filteredData = useMemo(() => {
+    if (!searchFilter.trim()) return data
+    return data.filter(cat =>
+      cat.productType.toLowerCase().includes(searchFilter.toLowerCase())
+    )
+  }, [data, searchFilter])
 
-  const rows = data.map((item, index) => (
+  const rows = filteredData.map((item) => (
     <Table.Tr
       key={item.productType}
       onDoubleClick={() => {
@@ -212,7 +223,7 @@ function RecommendedScreen() {
         <NumberInput
           size="xs"
           value={quantity(item)}
-          onChange={(value) => handleQuantityChange(index, value, item)}
+          onChange={(value) => handleQuantityChange(value, item)}
         />
       </Table.Td>
       <Table.Td c="dimmed">
@@ -290,7 +301,14 @@ function RecommendedScreen() {
                   {translated.lastUpdated} {new Date(productData.lastCategoriesUpdate).toLocaleDateString()}
                 </Text>
               )}
-              
+
+              <FilterComponent
+                searchValue={searchFilter}
+                onSearchChange={setSearchFilter}
+                categoryType={categoryType}
+                onCategoryTypeChange={setCategoryType}
+              />
+
               <Table withRowBorders={false} highlightOnHover>
                 <Table.Thead>
                   <Table.Tr>
