@@ -3,6 +3,7 @@
     "baseCategories": [
         {
             "id": 1,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Mineral water",
@@ -29,6 +30,7 @@
         },
         {
             "id": 2,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Other drinks",
@@ -54,6 +56,7 @@
         },
         {
             "id": 3,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Tea",
@@ -79,6 +82,7 @@
         },
         {
             "id": 4,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Coffee",
@@ -104,6 +108,7 @@
         },
         {
             "id": 5,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Milk or milk alternative",
@@ -129,6 +134,7 @@
         },
         {
             "id": 6,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Vegetables",
@@ -154,6 +160,7 @@
         },
         {
             "id": 7,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Fruits",
@@ -179,6 +186,7 @@
         },
         {
             "id": 8,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Sauces",
@@ -204,6 +212,7 @@
         },
         {
             "id": 9,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Soups",
@@ -229,6 +238,7 @@
         },
         {
             "id": 10,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Cereals",
@@ -254,6 +264,7 @@
         },
         {
             "id": 11,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Ready meals",
@@ -279,6 +290,7 @@
         },
         {
             "id": 12,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Legumes",
@@ -304,6 +316,7 @@
         },
         {
             "id": 13,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Meat",
@@ -329,6 +342,7 @@
         },
         {
             "id": 14,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Fish",
@@ -354,6 +368,7 @@
         },
         {
             "id": 15,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Dairy products",
@@ -379,6 +394,7 @@
         },
         {
             "id": 16,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Nuts",
@@ -404,6 +420,7 @@
         },
         {
             "id": 17,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Oil",
@@ -429,6 +446,7 @@
         },
         {
             "id": 18,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Spices",
@@ -454,6 +472,7 @@
         },
         {
             "id": 19,
+            "categoryType": "food",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Snacks",
@@ -479,6 +498,7 @@
         },
         {
             "id": 20,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Body care",
@@ -504,6 +524,7 @@
         },
         {
             "id": 21,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Sanitary products",
@@ -529,6 +550,7 @@
         },
         {
             "id": 22,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Toilet paper",
@@ -554,6 +576,7 @@
         },
         {
             "id": 23,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Tissues",
@@ -579,6 +602,7 @@
         },
         {
             "id": 24,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Cleaning products",
@@ -604,6 +628,7 @@
         },
         {
             "id": 25,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Masks",
@@ -629,6 +654,7 @@
         },
         {
             "id": 26,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Hand sanitizer",
@@ -654,6 +680,7 @@
         },
         {
             "id": 27,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Garbage bags",
@@ -679,6 +706,7 @@
         },
         {
             "id": 28,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Candles",
@@ -704,6 +732,7 @@
         },
         {
             "id": 29,
+            "categoryType": "equipment",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Flashlight",
@@ -729,6 +758,7 @@
         },
         {
             "id": 30,
+            "categoryType": "equipment",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Gas stove",
@@ -754,6 +784,7 @@
         },
         {
             "id": 31,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Spare batteries",
@@ -779,6 +810,7 @@
         },
         {
             "id": 32,
+            "categoryType": "equipment",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Battery or solar radio",
@@ -804,6 +836,7 @@
         },
         {
             "id": 33,
+            "categoryType": "consumable",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Matches or lighters",
@@ -829,6 +862,7 @@
         },
         {
             "id": 34,
+            "categoryType": "equipment",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Medical thermometer",
@@ -854,6 +888,7 @@
         },
         {
             "id": 35,
+            "categoryType": "equipment",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Can opener",
@@ -879,6 +914,7 @@
         },
         {
             "id": 36,
+            "categoryType": "equipment",
             "onlineShopLink": [],
             "productType": {
                 "en_US": "Pocket knife",

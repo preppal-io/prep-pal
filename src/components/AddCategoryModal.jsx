@@ -6,11 +6,13 @@ import {
   Button,
   Group,
   Stack,
-  FocusTrap
+  FocusTrap,
+  Select
 } from '@mantine/core'
 import { useProductContext } from '../context/ProductContext'
 import { setSaveStatus } from '../utils/notificationUtils'
 import { useLittera } from '@assembless/react-littera'
+import { CATEGORY_TYPES, categoryTypeTranslations } from './FilterComponent'
 
 const translations = {
   addCategory: {
@@ -107,7 +109,18 @@ const translations = {
     fr_CH: "Entrez le lien de la boutique en ligne",
     de_CH: "Online-Shop-Link eingeben",
     en_US: "Enter online shop link"
-  }
+  },
+  categoryType: {
+    fr_CH: "Type de catégorie",
+    de_CH: "Kategorietyp",
+    en_US: "Category type"
+  },
+  selectCategoryType: {
+    fr_CH: "Sélectionnez un type",
+    de_CH: "Typ auswählen",
+    en_US: "Select a type"
+  },
+  ...categoryTypeTranslations
 }
 
 function AddCategoryModal({ opened, onClose }) {
@@ -117,7 +130,8 @@ function AddCategoryModal({ opened, onClose }) {
     quantity: 0,
     usualExpiryCheckDays: 180,
     defaultUnit: '',
-    onlineShopLink: ''
+    onlineShopLink: '',
+    categoryType: 'food'
   })
 
   const { addCategory } = useProductContext()
@@ -139,7 +153,8 @@ function AddCategoryModal({ opened, onClose }) {
         quantity: formData.quantity,
         usualExpiryCheckDays: formData.usualExpiryCheckDays,
         defaultUnit: formData.defaultUnit,
-        onlineShopLink: formData.onlineShopLink
+        onlineShopLink: formData.onlineShopLink,
+        categoryType: formData.categoryType
       }
 
       // Add the new category
@@ -187,6 +202,18 @@ function AddCategoryModal({ opened, onClose }) {
               }
             }}
             data-autofocus
+            required
+          />
+
+          <Select
+            label={translated.categoryType}
+            placeholder={translated.selectCategoryType}
+            data={CATEGORY_TYPES.map(type => ({
+              value: type,
+              label: translated[type]
+            }))}
+            value={formData.categoryType}
+            onChange={(value) => setFormData({ ...formData, categoryType: value })}
             required
           />
 

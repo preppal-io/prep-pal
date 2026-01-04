@@ -2,6 +2,27 @@ import { TextInput, SegmentedControl, Group } from '@mantine/core'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import { useLittera } from '@assembless/react-littera'
 
+// Exported constants for reuse in other components
+export const CATEGORY_TYPES = ['food', 'consumable', 'equipment']
+
+export const categoryTypeTranslations = {
+  food: {
+    fr_CH: "Alimentation",
+    de_CH: "Lebensmittel",
+    en_US: "Food"
+  },
+  consumable: {
+    fr_CH: "Consommables",
+    de_CH: "Verbrauchsgüter",
+    en_US: "Consumable"
+  },
+  equipment: {
+    fr_CH: "Équipement",
+    de_CH: "Ausrüstung",
+    en_US: "Equipment"
+  }
+}
+
 const translations = {
   searchPlaceholder: {
     fr_CH: "Rechercher une catégorie...",
@@ -13,21 +34,7 @@ const translations = {
     de_CH: "Alle",
     en_US: "All"
   },
-  food: {
-    fr_CH: "Alimentation",
-    de_CH: "Lebensmittel",
-    en_US: "Food"
-  },
-  health: {
-    fr_CH: "Santé",
-    de_CH: "Gesundheit",
-    en_US: "Health"
-  },
-  equipment: {
-    fr_CH: "Équipement",
-    de_CH: "Ausrüstung",
-    en_US: "Equipment"
-  }
+  ...categoryTypeTranslations
 }
 
 function FilterComponent({
@@ -53,7 +60,7 @@ function FilterComponent({
         data={[
           { label: translated.all, value: 'all' },
           { label: translated.food, value: 'food' },
-          { label: translated.health, value: 'health' },
+          { label: translated.consumable, value: 'consumable' },
           { label: translated.equipment, value: 'equipment' }
         ]}
       />

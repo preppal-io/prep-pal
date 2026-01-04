@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { 
-  Modal, 
-  TextInput, 
-  NumberInput, 
-  Button, 
-  Group, 
+import {
+  Modal,
+  TextInput,
+  NumberInput,
+  Button,
+  Group,
   Stack,
-  FocusTrap
+  FocusTrap,
+  Select
 } from '@mantine/core'
 import { useProductContext } from '../context/ProductContext'
 import { setSaveStatus } from '../utils/notificationUtils'
 import { useLittera } from '@assembless/react-littera'
+import { CATEGORY_TYPES, categoryTypeTranslations } from './FilterComponent'
 
 const translations = {
   editCategory: (categoryName) => ({
@@ -87,7 +89,23 @@ const translations = {
     fr_CH: "Entrez le lien de la boutique en ligne",
     de_CH: "Online-Shop-Link eingeben",
     en_US: "Enter online shop link"
-  }
+  },
+  categoryType: {
+    fr_CH: "Type de catégorie",
+    de_CH: "Kategorietyp",
+    en_US: "Category type"
+  },
+  selectCategoryType: {
+    fr_CH: "Sélectionnez un type",
+    de_CH: "Typ auswählen",
+    en_US: "Select a type"
+  },
+  categoryTypeRequired: {
+    fr_CH: "Le type de catégorie est requis",
+    de_CH: "Kategorietyp ist erforderlich",
+    en_US: "Category type is required"
+  },
+  ...categoryTypeTranslations
 }
 
 function EditCategoryModal({ opened, onClose, category }) {
@@ -95,9 +113,10 @@ function EditCategoryModal({ opened, onClose, category }) {
     description: '',
     usualExpiryCheckDays: 0,
     defaultUnit: '',
-    onlineShopLink: ''
+    onlineShopLink: '',
+    categoryType: ''
   })
-  
+
   const { updateCategory } = useProductContext()
   const translated = useLittera(translations)
 
@@ -108,9 +127,10 @@ function EditCategoryModal({ opened, onClose, category }) {
         description: category.description || '',
         usualExpiryCheckDays: category.usualExpiryCheckDays || 0,
         defaultUnit: category.defaultUnit || '',
-        onlineShopLink: category.onlineShopLink && category.onlineShopLink.length > 0 
-          ? category.onlineShopLink[0] 
-          : ''
+        onlineShopLink: category.onlineShopLink && category.onlineShopLink.length > 0
+          ? category.onlineShopLink[0]
+          : '',
+        categoryType: category.categoryType || ''
       })
     }
   }, [category])
@@ -131,7 +151,8 @@ function EditCategoryModal({ opened, onClose, category }) {
         description: formData.description,
         usualExpiryCheckDays: formData.usualExpiryCheckDays,
         defaultUnit: formData.defaultUnit,
-        onlineShopLink: formData.onlineShopLink ? [formData.onlineShopLink] : []
+        onlineShopLink: formData.onlineShopLink ? [formData.onlineShopLink] : [],
+        categoryType: formData.categoryType
       }
       
       // Update the category
@@ -170,17 +191,30 @@ function EditCategoryModal({ opened, onClose, category }) {
     >
       <Stack spacing="md">
         <FocusTrap active={true}>
+          <Select
+            label={translated.categoryType}
+            placeholder={translated.selectCategoryType}
+            data={CATEGORY_TYPES.map(type => ({
+              value: type,
+              label: translated[type]
+            }))}
+            value={formData.categoryType || null}
+            onChange={(value) => setFormData({...formData, categoryType: value})}
+            required
+            error={!formData.categoryType ? translated.categoryTypeRequired : null}
+            data-autofocus
+          />
+
           <TextInput
             label={translated.description}
             placeholder={translated.descriptionPlaceholder}
             value={formData.description}
             onChange={(e) => setFormData({...formData, description: e.target.value})}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === 'Enter' && formData.categoryType) {
                 handleSubmit()
               }
             }}
-            data-autofocus
           />
           
           <NumberInput
@@ -223,7 +257,7 @@ function EditCategoryModal({ opened, onClose, category }) {
         
         <Group position="right" mt="md">
           <Button variant="outline" onClick={onClose}>{translated.cancel}</Button>
-          <Button onClick={handleSubmit}>
+          <Button onClick={handleSubmit} disabled={!formData.categoryType}>
             {translated.save}
           </Button>
         </Group>

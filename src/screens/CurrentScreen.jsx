@@ -133,13 +133,25 @@ function CurrentScreen() {
     return Object.values(grouped).sort((a, b) => a.category.id - b.category.id)
   }, [productData.stock, productData.baseCategories, translated])
 
-  // Filter grouped stock items by category name
+  // Filter grouped stock items by category name and type
   const filteredGroupedStockItems = useMemo(() => {
-    if (!searchFilter.trim()) return groupedStockItems
-    return groupedStockItems.filter(group =>
-      group.category.productType.toLowerCase().includes(searchFilter.toLowerCase())
-    )
-  }, [groupedStockItems, searchFilter])
+    let result = groupedStockItems
+
+    // Filter by search text
+    if (searchFilter.trim()) {
+      result = result.filter(group =>
+        group.category.productType.toLowerCase().includes(searchFilter.toLowerCase())
+      )
+    }
+
+    // Filter by category type (if not 'all')
+    // Categories without categoryType are shown in all filter views for backward compatibility
+    if (categoryType !== 'all') {
+      result = result.filter(group => group.category.categoryType === categoryType)
+    }
+
+    return result
+  }, [groupedStockItems, searchFilter, categoryType])
 
   const handleAddItem = (category) => {
     setSelectedCategory(category)

@@ -200,13 +200,25 @@ function RecommendedScreen() {
     }
   }
 
-  // Filter categories by search text
+  // Filter categories by search text and category type
   const filteredData = useMemo(() => {
-    if (!searchFilter.trim()) return data
-    return data.filter(cat =>
-      cat.productType.toLowerCase().includes(searchFilter.toLowerCase())
-    )
-  }, [data, searchFilter])
+    let result = data
+
+    // Filter by search text
+    if (searchFilter.trim()) {
+      result = result.filter(cat =>
+        cat.productType.toLowerCase().includes(searchFilter.toLowerCase())
+      )
+    }
+
+    // Filter by category type (if not 'all')
+    // Categories without categoryType are shown in all filter views for backward compatibility
+    if (categoryType !== 'all') {
+      result = result.filter(cat => cat.categoryType === categoryType)
+    }
+
+    return result
+  }, [data, searchFilter, categoryType])
 
   const rows = filteredData.map((item) => (
     <Table.Tr
