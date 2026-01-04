@@ -3,6 +3,7 @@
   "version": "0.10.0",
   "private": true,
   "main": "electron/main.js",
+  "author": "PrepPal <hey@preppal.io>",
   "dependencies": {
     "@assembless/react-littera": "^2.4.0",
     "@electron/remote": "^2.0.1",
@@ -99,8 +100,7 @@
     },
     "linux": {
       "target": [
-        "AppImage",
-        "deb"
+        "AppImage"
       ],
       "category": "Utility"
     }
@@ -121,7 +121,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
-    "electron": "^29.0.0",
+    "electron": "^39.2.7",
     "electron-builder": "^26.3.6",
     "vite": "^6.2.3",
     "wait-on": "^8.0.3"
