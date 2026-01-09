@@ -10,7 +10,7 @@ It helps you track your items, get alerts about expiration and check dates, and 
 
 Head to the distribution section of this repository to download the latest build, or use the online version at https://preppal.io/app/
 
-https://github.com/DaveGee/prep-pal/releases
+https://github.com/preppal-io/prep-pal/releases
 
 # How-to use this code
 

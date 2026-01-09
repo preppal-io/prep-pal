@@ -6,7 +6,7 @@ This document explains how to build and publish the PrepPal application for Wind
 
 - Node.js and npm installed
 - Git installed
-- GitHub repository access (git@github.com:DaveGee/prep-pal.git)
+- GitHub repository access (git@github.com:preppal-io/prep-pal.git)
 
 ## Local Building and Publishing
 
