@@ -13,10 +13,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run electron:build` - Build complete Electron app for current platform
 - `npm run electron:build:mac` - Build for macOS specifically
 - `npm run electron:build:win` - Build for Windows specifically
+- `npm run electron:build:linux` - Build for Linux specifically (AppImage)
 
 ### Publishing
 - `npm run electron:publish` - Build and publish to GitHub releases for current platform
 - Publishing requires `GH_TOKEN` environment variable with GitHub personal access token
+- CI/CD automatically builds and publishes for macOS, Windows, and Linux when a version tag is pushed
 
 ## Architecture Overview
 

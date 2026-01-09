@@ -31,7 +31,8 @@
     "electron:build:linux": "npm run build && electron-builder -c.extraMetadata.main=build/electron/main.js --linux --publish never",
     "electron:publish": "npm run build && electron-builder -c.extraMetadata.main=build/electron/main.js --publish always",
     "electron:publish:mac": "npm run build && electron-builder -c.extraMetadata.main=build/electron/main.js --mac --publish always",
-    "electron:publish:win": "npm run build && electron-builder -c.extraMetadata.main=build/electron/main.js --win --publish always"
+    "electron:publish:win": "npm run build && electron-builder -c.extraMetadata.main=build/electron/main.js --win --publish always",
+    "electron:publish:linux": "npm run build && electron-builder -c.extraMetadata.main=build/electron/main.js --linux --publish always"
   },
   "build": {
     "appId": "io.preppal",

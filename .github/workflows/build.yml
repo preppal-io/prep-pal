@@ -11,7 +11,7 @@ jobs:
     
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [macos-latest, windows-latest, ubuntu-latest]
     
     steps:
       - name: Check out Git repository
@@ -33,8 +33,8 @@ jobs:
             npm run electron:publish:mac
           elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             npm run electron:publish:win
-          else
-            npm run electron:publish
+          elif [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            npm run electron:publish:linux
           fi
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
