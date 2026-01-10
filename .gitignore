@@ -7,6 +7,11 @@ release
 
 .structurizr
 
+.features
+
 # Playwright
 playwright-report/
 test-results/
+
+# Coverage
+coverage/
