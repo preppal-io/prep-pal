@@ -1,8 +1,12 @@
 node_modules
 build
-dist 
+dist
 release
 
 .DS_Store
 
 .structurizr
+
+# Playwright
+playwright-report/
+test-results/

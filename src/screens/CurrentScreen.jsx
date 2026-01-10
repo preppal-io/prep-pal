@@ -13,9 +13,7 @@ import { useLittera } from '@assembless/react-littera'
 import ResetDatabases from '../components/ResetDatabases'
 
 import translations from './CurrentScreen.translations'
-
-const LOW_STOCK_THRESHOLD = 65
-const CRITICAL_STOCK_THRESHOLD_ = 35
+import { LOW_STOCK_THRESHOLD, CRITICAL_STOCK_THRESHOLD } from '../constants'
 
 function CurrentScreen() {
   const theme = useMantineTheme()
@@ -212,7 +210,7 @@ function CurrentScreen() {
       const hasLowStock = group.stockPercentage < LOW_STOCK_THRESHOLD
       let stockLevelColor = group.stockPercentage > LOW_STOCK_THRESHOLD ? 
         theme.colors.green[6] : 
-        group.stockPercentage < CRITICAL_STOCK_THRESHOLD_ ?
+        group.stockPercentage < CRITICAL_STOCK_THRESHOLD ?
           theme.colors.red[6] :
           theme.colors.yellow[6]
 

@@ -2,6 +2,7 @@
   "name": "prep-pal",
   "version": "0.11.0",
   "private": true,
+  "type": "module",
   "main": "electron/main.js",
   "author": "PrepPal <hey@preppal.io>",
   "dependencies": {
@@ -23,6 +24,15 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
+    "lint": "eslint src/ electron/",
+    "lint:fix": "eslint src/ electron/ --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx}\" \"electron/**/*.js\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx}\" \"electron/**/*.js\"",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run electron:start\"",
     "electron:start": "wait-on tcp:3000 && electron .",
     "electron:build": "npm run build && electron-builder -c.extraMetadata.main=build/electron/main.js --publish never",
@@ -119,12 +129,23 @@
     ]
   },
   "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@playwright/test": "^1.49.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "electron": "^39.2.7",
     "electron-builder": "^26.3.6",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "globals": "^15.14.0",
+    "jsdom": "^25.0.1",
+    "prettier": "^3.4.2",
     "vite": "^6.2.3",
+    "vitest": "^2.1.8",
     "wait-on": "^8.0.3"
   }
 }

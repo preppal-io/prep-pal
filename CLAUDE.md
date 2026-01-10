@@ -20,6 +20,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Publishing requires `GH_TOKEN` environment variable with GitHub personal access token
 - CI/CD automatically builds and publishes for macOS, Windows, and Linux when a version tag is pushed
 
+### Testing
+- `npm run test` - Run Vitest in watch mode
+- `npm run test:run` - Run Vitest once
+- `npm run test:coverage` - Run tests with coverage report
+- `npm run test:e2e` - Run Playwright e2e tests (requires local environment)
+- `npm run test:e2e:ui` - Run Playwright with UI mode
+
+### Code Quality
+- `npm run lint` - Run ESLint
+- `npm run lint:fix` - Run ESLint with auto-fix
+- `npm run format` - Format code with Prettier
+- `npm run format:check` - Check code formatting
+
 ## Development Container (Claude Code)
 
 This project includes a devcontainer configuration for secure Claude Code development.
@@ -76,6 +89,13 @@ The devcontainer implements a firewall that only allows connections to:
 - VS Code marketplace and updates
 
 All other outbound network access is blocked for enhanced security.
+
+### Playwright Support
+The devcontainer includes pre-installed Playwright browsers and the Playwright MCP server, enabling:
+- Running e2e tests with `npm run test:e2e`
+- Interactive browser automation via the Playwright MCP
+
+The MCP is configured in `.mcp.json` and provides browser control capabilities to Claude Code.
 
 ## Architecture Overview
 

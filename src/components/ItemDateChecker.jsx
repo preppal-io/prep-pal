@@ -17,6 +17,7 @@ import { useLittera } from '@assembless/react-littera'
 
 // Import translations
 import translations from './ItemDateChecker.translations'
+import { NOTIFICATION_TIMEOUT_MS } from '../constants'
 
 // Constants for item action states
 const ACTION_STATE = {
@@ -50,7 +51,7 @@ const ItemDateChecker = ({ item, category, productData, saveStockData }) => {
         }
         return prevState
       })
-    }, 3000)
+    }, NOTIFICATION_TIMEOUT_MS)
   }, [])
   
   // Update the item's checked date and next check date

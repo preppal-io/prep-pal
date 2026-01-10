@@ -119,6 +119,54 @@ This will create distribution files in the dist folder:
 
 Further reading: [PUBLISHING.md](./PUBLISHING.md)
 
+## Testing
+
+### Unit Tests (Vitest)
+
+Unit tests are located in the `tests/` directory and use Vitest with React Testing Library.
+
+```bash
+# Run tests in watch mode
+npm run test
+
+# Run tests once
+npm run test:run
+
+# Run with coverage
+npm run test:coverage
+```
+
+### E2E Tests (Playwright)
+
+End-to-end tests are in the `e2e/` directory and use Playwright.
+
+```bash
+# Run e2e tests
+npm run test:e2e
+
+# Run with UI mode for debugging
+npm run test:e2e:ui
+```
+
+**Note:** Playwright tests require browser binaries. Install them with:
+```bash
+npx playwright install chromium
+```
+
+> **Devcontainer users:** Playwright browsers are pre-installed in the devcontainer image.
+
+### Code Quality
+
+```bash
+# Lint code
+npm run lint
+npm run lint:fix  # with auto-fix
+
+# Format code
+npm run format
+npm run format:check  # check only
+```
+
 ## Architecture Documentation
 
 The project's architecture is documented using Structurizr DSL in the `architecture/` folder.

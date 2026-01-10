@@ -78,8 +78,14 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
   -a "export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
   -x
 
-# Install Claude
-RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
+# Install Claude Code and Playwright
+RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION} @anthropic-ai/claude-code-mcp-server-playwright@latest
+
+# Install Playwright browsers and dependencies
+USER root
+RUN npx playwright install-deps chromium
+USER node
+RUN npx playwright install chromium
 
 
 # Copy and set up firewall script
