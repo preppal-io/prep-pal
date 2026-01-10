@@ -2,7 +2,7 @@
   "mcpServers": {
     "playwright": {
       "command": "npx",
-      "args": ["@anthropic-ai/claude-code-mcp-server-playwright"]
+      "args": ["@playwright/mcp"]
     }
   }
 }
