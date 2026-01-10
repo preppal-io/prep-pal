@@ -19,6 +19,77 @@ https://github.com/preppal-io/prep-pal/releases
 3. Open terminal in the project folder
 4. Run: `npm install`
 
+## Development Container (Recommended for Claude Code)
+
+This project includes a devcontainer for secure development with Claude Code.
+
+### Prerequisites
+- [VS Code](https://code.visualstudio.com/) with [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+### Getting Started
+1. Open this repository in VS Code
+2. When prompted, click "Reopen in Container" (or use Command Palette: `Ctrl+Shift+P` → "Remote-Containers: Reopen in Container")
+3. Wait for the container to build (first time only)
+4. Run `npm install` to install dependencies
+5. Run `claude` to start Claude Code CLI
+
+### What's Included
+- Node.js 20 environment
+- Pre-installed Claude Code CLI
+- Development tools: git, zsh, fzf, GitHub CLI
+- Network firewall for enhanced security (restricts outbound connections to whitelisted domains)
+- VS Code extensions: ESLint, Prettier, GitLens
+
+### Running Claude Code
+```bash
+# Start Claude Code in the container
+claude
+
+# For unattended operation with enhanced isolation
+claude --dangerously-skip-permissions
+```
+
+### Without VS Code (Docker CLI)
+
+If you prefer to work directly with Docker or SSH into the container:
+
+```bash
+# Build the container image
+docker build -t prep-pal-devcontainer .devcontainer/
+
+# Run interactively with the project mounted
+docker run -it --rm \
+  --cap-add=NET_ADMIN \
+  --cap-add=NET_RAW \
+  -v "$(pwd):/workspace" \
+  -w /workspace \
+  prep-pal-devcontainer
+
+# Once inside the container, initialize the firewall and start working
+sudo /usr/local/bin/init-firewall.sh
+npm install
+claude
+```
+
+### Using devcontainer CLI
+
+You can also use the official devcontainer CLI:
+
+```bash
+# Install the CLI globally
+npm install -g @devcontainers/cli
+
+# Start the container
+devcontainer up --workspace-folder .
+
+# Open a shell inside the container
+devcontainer exec --workspace-folder . -- zsh
+
+# Or run Claude directly
+devcontainer exec --workspace-folder . -- claude
+```
+
 ## Running locally
 
 ### Electron development

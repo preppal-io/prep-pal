@@ -20,6 +20,63 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Publishing requires `GH_TOKEN` environment variable with GitHub personal access token
 - CI/CD automatically builds and publishes for macOS, Windows, and Linux when a version tag is pushed
 
+## Development Container (Claude Code)
+
+This project includes a devcontainer configuration for secure Claude Code development.
+
+### Quick Start
+1. Install VS Code and the [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+2. Open this repository in VS Code
+3. When prompted, click "Reopen in Container" (or use Command Palette: `Ctrl+Shift+P` → "Remote-Containers: Reopen in Container")
+4. Run `claude` in the terminal to start Claude Code
+
+### Features
+- Pre-installed Claude Code CLI
+- Node.js 20 with development tools (git, zsh, fzf, gh)
+- Network firewall restricting outbound connections to whitelisted domains only
+- Persistent command history and Claude configuration between sessions
+- VS Code extensions: ESLint, Prettier, GitLens
+
+### Without VS Code (Docker CLI)
+```bash
+# Build the container
+docker build -t prep-pal-devcontainer .devcontainer/
+
+# Run interactively with the project mounted
+docker run -it --rm \
+  --cap-add=NET_ADMIN \
+  --cap-add=NET_RAW \
+  -v "$(pwd):/workspace" \
+  -w /workspace \
+  prep-pal-devcontainer
+
+# Once inside, initialize firewall and start Claude
+sudo /usr/local/bin/init-firewall.sh
+npm install
+claude
+```
+
+### Using devcontainer CLI
+```bash
+# Install the CLI
+npm install -g @devcontainers/cli
+
+# Start the container
+devcontainer up --workspace-folder .
+
+# Execute commands inside
+devcontainer exec --workspace-folder . -- claude
+```
+
+### Security
+The devcontainer implements a firewall that only allows connections to:
+- npm registry
+- GitHub (API, web, git)
+- Claude API (api.anthropic.com)
+- VS Code marketplace and updates
+
+All other outbound network access is blocked for enhanced security.
+
 ## Architecture Overview
 
 ### Tech Stack
