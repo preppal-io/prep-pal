@@ -26,6 +26,7 @@ import { Package, JarLabel, ShoppingCart } from '@phosphor-icons/react'
 
 import { useLittera, useLitteraMethods } from '@assembless/react-littera'
 import ImportExportDatabase from './components/ImportExportDatabase'
+import StockStats from './components/StockStats'
 
 import logo from './assets/preppal-logo.png'
 import { version } from '../package.json'
@@ -102,13 +103,15 @@ function AppContent() {
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Image fit="contain" w="60" src={logo} alt="Logo" style={{ verticalAlign: "middle", width: "60px" }} />
-          <Title order={3}>
-            {translated.myStock}
-          </Title>
-
+        <Group h="100%" px="md" justify="space-between">
+          <Group>
+            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+            <Image fit="contain" w="60" src={logo} alt="Logo" style={{ verticalAlign: "middle", width: "60px" }} />
+            <Title order={3}>
+              {translated.myStock}
+            </Title>
+          </Group>
+          <StockStats />
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
