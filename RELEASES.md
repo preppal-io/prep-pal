@@ -1,5 +1,15 @@
 # Release notes
 
+## `v0.11.1`
+
+Date: `2026-01-11`
+
+- Add comprehensive unit, integration, and e2e tests for core business logic
+- Add devcontainer configuration for Claude Code development
+- Add test configuration and CI gate to prevent deploy if tests fail
+- Fix vulnerabilities in dependencies (react-router-dom update)
+- Fix Playwright MCP server package name in devcontainer
+
 ## `v0.11.0`
 
 Date: `2026-01-04`
