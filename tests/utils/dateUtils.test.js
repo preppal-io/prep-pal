@@ -3,9 +3,7 @@ import {
   parseDate,
   formatDate,
   addDays,
-  daysBetween,
   isTodayAfter,
-  isDateToday,
   getTodayFormatted,
   getToday,
 } from '../../src/utils/dateUtils'
@@ -59,21 +57,6 @@ describe('dateUtils', () => {
     })
   })
 
-  describe('daysBetween', () => {
-    it('calculates days between two dates', () => {
-      // Function uses Math.floor, so 5 days apart returns 4 full days
-      expect(daysBetween('2024-01-01', '2024-01-06')).toBe(5)
-    })
-
-    it('returns negative for reversed dates', () => {
-      expect(daysBetween('2024-01-06', '2024-01-01')).toBe(-5)
-    })
-
-    it('returns 0 for same date', () => {
-      expect(daysBetween('2024-03-15', '2024-03-15')).toBe(0)
-    })
-  })
-
   describe('isTodayAfter - expiration checking', () => {
     beforeEach(() => {
       // Mock the current date to 2024-06-15 for consistent testing
@@ -117,40 +100,6 @@ describe('dateUtils', () => {
       vi.setSystemTime(new Date(2025, 0, 1)) // January 1, 2025
       expect(isTodayAfter('2024-12-31')).toBe(true)
       expect(isTodayAfter('2025-01-01')).toBe(false)
-    })
-  })
-
-  describe('isDateToday', () => {
-    beforeEach(() => {
-      vi.useFakeTimers()
-      vi.setSystemTime(new Date(2024, 5, 15)) // June 15, 2024
-    })
-
-    afterEach(() => {
-      vi.useRealTimers()
-    })
-
-    it('returns true when date is today', () => {
-      expect(isDateToday('2024-06-15')).toBe(true)
-    })
-
-    it('returns false when date is yesterday', () => {
-      expect(isDateToday('2024-06-14')).toBe(false)
-    })
-
-    it('returns false when date is tomorrow', () => {
-      expect(isDateToday('2024-06-16')).toBe(false)
-    })
-
-    it('returns false for null or empty date string', () => {
-      expect(isDateToday('')).toBe(false)
-      expect(isDateToday(null)).toBe(false)
-      expect(isDateToday(undefined)).toBe(false)
-    })
-
-    it('returns false for dates in different months/years', () => {
-      expect(isDateToday('2024-05-15')).toBe(false) // Same day, different month
-      expect(isDateToday('2023-06-15')).toBe(false) // Same day/month, different year
     })
   })
 
@@ -219,22 +168,6 @@ describe('dateUtils', () => {
 
     it('handles large number of days', () => {
       expect(addDays('2024-01-01', 365)).toBe('2024-12-31') // Leap year has 366 days
-    })
-  })
-
-  describe('daysBetween - extended', () => {
-    it('returns 0 for null inputs', () => {
-      expect(daysBetween(null, '2024-01-06')).toBe(0)
-      expect(daysBetween('2024-01-01', null)).toBe(0)
-      expect(daysBetween(null, null)).toBe(0)
-    })
-
-    it('handles large date differences', () => {
-      expect(daysBetween('2024-01-01', '2025-01-01')).toBe(366) // Leap year
-    })
-
-    it('handles month-end dates', () => {
-      expect(daysBetween('2024-01-31', '2024-02-29')).toBe(29)
     })
   })
 })

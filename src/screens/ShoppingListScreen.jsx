@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Table, Title, Loader, Alert, Text, Button, UnstyledButton, Tooltip } from '@mantine/core'
+import { Container, Table, Title, Alert, Text, Button, UnstyledButton, Tooltip } from '@mantine/core'
 import InitDatabases from '../components/InitDatabases'
+import LoadingSpinner from '../components/LoadingSpinner'
 import { Square, StackPlus, Tag, Hash, Printer, Eye, EyeClosed } from '@phosphor-icons/react'
 import { useProductContext } from '../context/ProductContext'
 import classes from './ShoppingListScreen.module.css'
@@ -152,9 +153,7 @@ function ShoppingListScreen() {
       {!filesExist.categories ? (
         <InitDatabases />
       ) : loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
-          <Loader size="xl" />
-        </div>
+        <LoadingSpinner />
       ) : (
         <Table withRowBorders={false} className={classes.shoppingListTable}>
           <Table.Thead>

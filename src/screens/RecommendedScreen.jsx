@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { Container, NumberInput, Table, Title, Text, Group, Loader, Alert, ActionIcon, Tooltip, Button } from '@mantine/core'
+import { Container, NumberInput, Table, Title, Text, Group, Alert, ActionIcon, Tooltip, Button } from '@mantine/core'
 import { Pencil, ShoppingCart, Trash, Plus } from '@phosphor-icons/react'
 import EditCategoryModal from '../components/EditCategoryModal'
 import AddCategoryModal from '../components/AddCategoryModal'
 import InitDatabases from '../components/InitDatabases'
 import FilterComponent from '../components/FilterComponent'
+import LoadingSpinner from '../components/LoadingSpinner'
 import { useProductContext } from '../context/ProductContext'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { setSaveStatus } from '../utils/notificationUtils'
@@ -303,9 +304,7 @@ function RecommendedScreen() {
       {filesExist.categories ? (
         <>
           {loading ? (
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
-              <Loader size="xl" />
-            </div>
+            <LoadingSpinner />
           ) : (
             <>
               {productData.lastCategoriesUpdate && (

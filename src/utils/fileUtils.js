@@ -51,7 +51,7 @@ export const checkProductCategoriesExist = async () => {
       return !!storedData
     }
   } catch (error) {
-    console.warn('Product categories file does not exist')
+    console.error('Product categories file does not exist:', error)
     return false
   }
 }
@@ -72,7 +72,7 @@ export const checkStockExists = async () => {
       return !!storedData
     }
   } catch (error) {
-    console.warn('Stock file does not exist')
+    console.error('Stock file does not exist:', error)
     return false
   }
 }

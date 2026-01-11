@@ -1,11 +1,13 @@
 import React, { useMemo, useState } from 'react'
-import { Container, Title, Table, Loader, Tooltip, useMantineTheme, ActionIcon, Group, Text, NumberInput } from '@mantine/core'
+import { Container, Title, Table, Tooltip, useMantineTheme, ActionIcon, Group, Text, NumberInput } from '@mantine/core'
 import InitDatabases from '../components/InitDatabases'
 import FilterComponent from '../components/FilterComponent'
+import LoadingSpinner from '../components/LoadingSpinner'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { useProductContext } from '../context/ProductContext'
 import { Trash, Info, PlusCircle, WarningDiamond } from '@phosphor-icons/react'
 import { isTodayAfter } from '../utils/dateUtils'
+import { updateStockItem, removeStockItem } from '../utils/stockUtils'
 import ItemDateChecker from '../components/ItemDateChecker'
 import AddStockItemModal from '../components/AddStockItemModal'
 import { setSaveStatus } from '../utils/notificationUtils'
@@ -25,48 +27,30 @@ function CurrentScreen() {
 
   const translated = useLittera(translations)
   
-  const handleQuantityChange = (item, newQuantity) => {
+  const handleQuantityChange = async (item, newQuantity) => {
     try {
-      setSaveStatus({ 
-        saving: true, 
-        success: null, 
+      setSaveStatus({
+        saving: true,
+        success: null,
         message: translated.updatingQuantity(item.description),
         id: 'save-stock-item'
       })
-      
-      // Update the item in the products array
-      const updatedProducts = productData.stock.products.map(stockItem => {
-        if (
-          stockItem.typeId === item.typeId && 
-          stockItem.description === item.description &&
-          stockItem.checkedDate === item.checkedDate
-        ) {
-          return { ...stockItem, quantity: newQuantity }
-        }
-        return stockItem
-      })
-      
-      // Create updated stock object
-      const updatedStock = {
-        ...productData.stock,
-        products: updatedProducts
-      }
-      
-      // Save the updated stock
-      saveStockData(updatedStock).then(success => {
-        setSaveStatus({ 
-          saving: false, 
-          success: success, 
-          message: success 
-            ? translated.quantityUpdated(item.description)
-            : translated.quantityNotUpdated(item.description),
-          id: 'save-stock-item'
-        })
+
+      const updatedStock = updateStockItem(productData.stock, item, { quantity: newQuantity })
+      const success = await saveStockData(updatedStock)
+
+      setSaveStatus({
+        saving: false,
+        success: success,
+        message: success
+          ? translated.quantityUpdated(item.description)
+          : translated.quantityNotUpdated(item.description),
+        id: 'save-stock-item'
       })
     } catch (error) {
-      setSaveStatus({ 
-        saving: false, 
-        success: false, 
+      setSaveStatus({
+        saving: false,
+        success: false,
         message: translated.errorUpdatingQuantity(error.message),
         id: 'save-stock-item'
       })
@@ -158,43 +142,28 @@ function CurrentScreen() {
   
   const handleDeleteItem = async (item, categoryName) => {
     try {
-      setSaveStatus({ 
-        saving: true, 
-        success: null, 
+      setSaveStatus({
+        saving: true,
+        success: null,
         message: translated.deletingItem(item.description, categoryName),
         id: 'save-stock-item'
       })
-      
-      // Filter out the item to delete
-      const updatedProducts = productData.stock.products.filter(
-        stockItem => !(
-          stockItem.typeId === item.typeId && 
-          stockItem.description === item.description &&
-          stockItem.checkedDate === item.checkedDate
-        )
-      )
-      
-      // Create updated stock object
-      const updatedStock = {
-        ...productData.stock,
-        products: updatedProducts
-      }
-      
-      // Save the updated stock
+
+      const updatedStock = removeStockItem(productData.stock, item)
       const success = await saveStockData(updatedStock)
-      
-      setSaveStatus({ 
-        saving: false, 
-        success: success, 
-        message: success 
-          ? translated.itemDeleted(item.description, categoryName) 
-          : translated.itemNotDeleted(item.description, categoryName), 
+
+      setSaveStatus({
+        saving: false,
+        success: success,
+        message: success
+          ? translated.itemDeleted(item.description, categoryName)
+          : translated.itemNotDeleted(item.description, categoryName),
         id: 'save-stock-item'
       })
     } catch (error) {
-      setSaveStatus({ 
-        saving: false, 
-        success: false, 
+      setSaveStatus({
+        saving: false,
+        success: false,
         message: translated.errorDeleting(error.message),
         id: 'save-stock-item'
       })
@@ -330,9 +299,7 @@ function CurrentScreen() {
       {filesExist.categories ? (
         <>
           {loading ? (
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
-              <Loader size="xl" />
-            </div>
+            <LoadingSpinner />
           ) : (
             <>
               <FilterComponent

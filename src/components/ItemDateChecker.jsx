@@ -11,7 +11,8 @@ import {
 } from '@mantine/core'
 import { DatePicker } from '@mantine/dates'
 import { CalendarCheck, FalloutShelter, UserCheck, CalendarStar } from '@phosphor-icons/react'
-import { isTodayAfter, getToday, addDays, formatDate } from '../utils/dateUtils'
+import { isTodayAfter, getToday, addDays } from '../utils/dateUtils'
+import { updateStockItem } from '../utils/stockUtils'
 import { setSaveStatus } from '../utils/notificationUtils'
 import { useLittera } from '@assembless/react-littera'
 
@@ -55,56 +56,45 @@ const ItemDateChecker = ({ item, category, productData, saveStockData }) => {
   }, [])
   
   // Update the item's checked date and next check date
-  const updateItemDates = useCallback(() => {
+  const updateItemDates = useCallback(async () => {
     const today = getToday()
-    
+
     try {
-      setSaveStatus({ 
-        saving: true, 
-        success: null, 
+      setSaveStatus({
+        saving: true,
+        success: null,
         message: translated.updatingCheckedDate(item.description),
         id: 'save-stock-item'
       })
-      
+
       // Calculate the next check date (today + usualExpiryCheckDays)
-      const nextCheckDate = category?.usualExpiryCheckDays 
+      const nextCheckDate = category?.usualExpiryCheckDays
         ? addDays(today, category.usualExpiryCheckDays)
         : item.nextCheck // Keep the existing nextCheck if no usualExpiryCheckDays is defined
-      
-      // Create updated stock object with the updated item
-      const updatedStock = {
-        ...productData.stock,
-        products: productData.stock.products.map(stockItem => {
-          if (
-            stockItem.typeId === item.typeId && 
-            stockItem.description === item.description &&
-            stockItem.checkedDate === item.checkedDate
-          ) {
-            return { ...stockItem, checkedDate: today, nextCheck: nextCheckDate }
-          }
-          return stockItem
-        })
-      }
-      
-      // Save the updated stock
-      saveStockData(updatedStock).then(success => {
-        setSaveStatus({ 
-          saving: false, 
-          success: success, 
-          message: success 
-            ? translated.checkedDateUpdated(item.description)
-            : translated.checkedDateNotUpdated(item.description),
-          id: 'save-stock-item'
-        })
-        
-        if (success) {
-          setActionState(ACTION_STATE.DEFAULT)
-        }
+
+      const updatedStock = updateStockItem(productData.stock, item, {
+        checkedDate: today,
+        nextCheck: nextCheckDate
       })
+
+      const success = await saveStockData(updatedStock)
+
+      setSaveStatus({
+        saving: false,
+        success: success,
+        message: success
+          ? translated.checkedDateUpdated(item.description)
+          : translated.checkedDateNotUpdated(item.description),
+        id: 'save-stock-item'
+      })
+
+      if (success) {
+        setActionState(ACTION_STATE.DEFAULT)
+      }
     } catch (error) {
-      setSaveStatus({ 
-        saving: false, 
-        success: false, 
+      setSaveStatus({
+        saving: false,
+        success: false,
         message: translated.errorUpdatingCheckedDate(error.message),
         id: 'save-stock-item'
       })
@@ -113,54 +103,35 @@ const ItemDateChecker = ({ item, category, productData, saveStockData }) => {
   }, [item, category, productData, saveStockData, translated])
   
   // Update the item's next check date
-  const updateNextCheckDate = useCallback((date) => {
+  const updateNextCheckDate = useCallback(async (date) => {
     try {
-      setSaveStatus({ 
-        saving: true, 
-        success: null, 
+      setSaveStatus({
+        saving: true,
+        success: null,
         message: translated.updatingNextCheckDate(item.description),
         id: 'save-stock-item'
       })
-      
-      // the date format matches by miracle between the date picker component and the way we want to save dates
-      const formattedDate = date
 
-      
-      // Create updated stock object with the updated item
-      const updatedStock = {
-        ...productData.stock,
-        products: productData.stock.products.map(stockItem => {
-          if (
-            stockItem.typeId === item.typeId && 
-            stockItem.description === item.description &&
-            stockItem.checkedDate === item.checkedDate
-          ) {
-            return { ...stockItem, nextCheck: formattedDate }
-          }
-          return stockItem
-        })
-      }
-      
-      // Save the updated stock
-      saveStockData(updatedStock).then(success => {
-        setSaveStatus({ 
-          saving: false, 
-          success: success, 
-          message: success 
-            ? translated.nextCheckDateUpdated(item.description)
-            : translated.nextCheckDateNotUpdated(item.description),
-          id: 'save-stock-item'
-        })
-        
-        if (success) {
-          setModalOpen(false)
-          setActionState(ACTION_STATE.DEFAULT)
-        }
+      const updatedStock = updateStockItem(productData.stock, item, { nextCheck: date })
+      const success = await saveStockData(updatedStock)
+
+      setSaveStatus({
+        saving: false,
+        success: success,
+        message: success
+          ? translated.nextCheckDateUpdated(item.description)
+          : translated.nextCheckDateNotUpdated(item.description),
+        id: 'save-stock-item'
       })
+
+      if (success) {
+        setModalOpen(false)
+        setActionState(ACTION_STATE.DEFAULT)
+      }
     } catch (error) {
-      setSaveStatus({ 
-        saving: false, 
-        success: false, 
+      setSaveStatus({
+        saving: false,
+        success: false,
         message: translated.errorUpdatingNextCheckDate(error.message),
         id: 'save-stock-item'
       })

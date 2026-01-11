@@ -70,27 +70,6 @@ export const isTodayAfter = (dateString) => {
 }
 
 /**
- * Check if a date is today
- * @param {string} dateString - Date string in yyyy-mm-dd format
- * @returns {boolean} True if the date is today, false otherwise
- */
-export const isDateToday = (dateString) => {
-  if (!dateString) return false
-  
-  const today = new Date()
-  // Reset time to midnight for accurate date comparison
-  today.setHours(0, 0, 0, 0)
-  
-  const compareDate = parseDate(dateString)
-  if (!compareDate) return false
-  
-  // Compare year, month, and day
-  return today.getFullYear() === compareDate.getFullYear() &&
-         today.getMonth() === compareDate.getMonth() &&
-         today.getDate() === compareDate.getDate()
-}
-
-/**
  * Add days to a date
  * @param {string|Date} date - Date string in yyyy-mm-dd format or Date object
  * @param {number} days - Number of days to add (can be negative to subtract days)
@@ -108,23 +87,4 @@ export const addDays = (date, days) => {
   newDate.setDate(newDate.getDate() + days)
   
   return formatDate(newDate)
-}
-
-/**
- * Calculate the difference in days between two dates
- * @param {string} dateString1 - First date string in yyyy-mm-dd format
- * @param {string} dateString2 - Second date string in yyyy-mm-dd format
- * @returns {number} Difference in days (positive if date2 is after date1)
- */
-export const daysBetween = (dateString1, dateString2) => {
-  const date1 = parseDate(dateString1)
-  const date2 = parseDate(dateString2)
-  
-  if (!date1 || !date2) return 0
-  
-  // Calculate difference in milliseconds and convert to days
-  const diffTime = date2 - date1
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
-  
-  return diffDays
 }

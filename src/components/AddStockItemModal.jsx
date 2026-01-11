@@ -11,6 +11,7 @@ import {
 } from '@mantine/core'
 import { useProductContext } from '../context/ProductContext'
 import { getTodayFormatted, addDays } from '../utils/dateUtils'
+import { addStockItem } from '../utils/stockUtils'
 import { setSaveStatus } from '../utils/notificationUtils'
 import { useLittera } from '@assembless/react-littera'
 
@@ -114,13 +115,9 @@ function AddStockItemModal({ opened, onClose, categoryId, categoryName }) {
         checkedDate: getTodayFormatted(),
         nextCheck: addDays(getTodayFormatted(), checkDays)
       }
-      
-      // Add the new item to the stock
-      const updatedStock = {
-        ...productData.stock,
-        products: [...productData.stock.products, newItem]
-      }
-      
+
+      const updatedStock = addStockItem(productData.stock, newItem)
+
       // Save the updated stock
       const success = await saveStockData(updatedStock)
       
