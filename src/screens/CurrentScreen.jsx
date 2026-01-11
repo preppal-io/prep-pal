@@ -8,6 +8,9 @@ import StockItemRow from '../components/StockItemRow'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { useProductContext } from '../context/ProductContext'
 import { updateStockItem, removeStockItem } from '../utils/stockUtils'
+import { Trash, Info, PlusCircle, WarningDiamond } from '@phosphor-icons/react'
+import { isTodayAfter, getTodayFormatted } from '../utils/dateUtils'
+import ItemDateChecker from '../components/ItemDateChecker'
 import AddStockItemModal from '../components/AddStockItemModal'
 import { setSaveStatus } from '../utils/notificationUtils'
 import { useLittera } from '@assembless/react-littera'
@@ -40,10 +43,16 @@ function CurrentScreen() {
         saving: true,
         success: null,
         message: translated.updatingQuantity(item.description),
-        id: 'save-stock-item'
+        id: 'save-stock-item',
       })
 
-      const updatedStock = updateStockItem(productData.stock, item, { quantity: newQuantity })
+      const today = getTodayFormatted()
+      const updatedStock = updateStockItem(productData.stock, item, {
+        quantity: newQuantity,
+        checkedDate: today,
+      })
+
+      // Save the updated stock
       const success = await saveStockData(updatedStock)
 
       setSaveStatus({
@@ -52,14 +61,14 @@ function CurrentScreen() {
         message: success
           ? translated.quantityUpdated(item.description)
           : translated.quantityNotUpdated(item.description),
-        id: 'save-stock-item'
+        id: 'save-stock-item',
       })
     } catch (error) {
       setSaveStatus({
         saving: false,
         success: false,
         message: translated.errorUpdatingQuantity(error.message),
-        id: 'save-stock-item'
+        id: 'save-stock-item',
       })
     }
   }
@@ -83,7 +92,7 @@ function CurrentScreen() {
         saving: true,
         success: null,
         message: translated.deletingItem(item.description, categoryName),
-        id: 'save-stock-item'
+        id: 'save-stock-item',
       })
 
       const updatedStock = removeStockItem(productData.stock, item)
@@ -95,14 +104,14 @@ function CurrentScreen() {
         message: success
           ? translated.itemDeleted(item.description, categoryName)
           : translated.itemNotDeleted(item.description, categoryName),
-        id: 'save-stock-item'
+        id: 'save-stock-item',
       })
     } catch (error) {
       setSaveStatus({
         saving: false,
         success: false,
         message: translated.errorDeleting(error.message),
-        id: 'save-stock-item'
+        id: 'save-stock-item',
       })
     }
   }
@@ -116,7 +125,7 @@ function CurrentScreen() {
   const rows = useMemo(() => {
     const tableRows = []
 
-    filteredGroupedStockItems.forEach(group => {
+    filteredGroupedStockItems.forEach((group) => {
       // Add category row
       tableRows.push(
         <StockCategoryRow
@@ -148,7 +157,7 @@ function CurrentScreen() {
 
   return (
     <Container fluid>
-      <Group gap="xs" mb="md" align="flex-start" justify='space-between'>
+      <Group gap="xs" mb="md" align="flex-start" justify="space-between">
         <Title order={1}>{translated.title}</Title>
         <ResetDatabases />
       </Group>

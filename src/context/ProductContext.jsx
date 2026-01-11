@@ -196,13 +196,13 @@ export const ProductProvider = ({ children }) => {
         baseCategories: updatedData.baseCategories,
         lastCategoriesUpdate: updatedData.lastUpdate
       })
-      
+
       // Update filesExist state
       setFilesExist({
         ...filesExist,
         categories: true
       })
-      
+
       setError(null)
       return true
     } catch (err) {
@@ -224,13 +224,13 @@ export const ProductProvider = ({ children }) => {
         ...productData,
         stock: newData
       })
-      
+
       // Update filesExist state
       setFilesExist({
         ...filesExist,
         stock: true
       })
-      
+
       setError(null)
 
       return true
