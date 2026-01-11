@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { Container, NumberInput, Table, Title, Text, Group, Alert, ActionIcon, Tooltip, Button } from '@mantine/core'
-import { Pencil, ShoppingCart, Trash, Plus } from '@phosphor-icons/react'
+import React, { useState, useEffect } from 'react'
+import { Container, Table, Title, Text, Group, Alert, Tooltip, Button } from '@mantine/core'
+import { Plus } from '@phosphor-icons/react'
 import EditCategoryModal from '../components/EditCategoryModal'
 import AddCategoryModal from '../components/AddCategoryModal'
 import InitDatabases from '../components/InitDatabases'
 import FilterComponent from '../components/FilterComponent'
 import LoadingSpinner from '../components/LoadingSpinner'
+import CategoryRow from '../components/CategoryRow'
 import { useProductContext } from '../context/ProductContext'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { setSaveStatus } from '../utils/notificationUtils'
 import { openInBrowser } from '../utils/browserUtils'
 import { useLittera } from '@assembless/react-littera'
 import ResetDatabases from '../components/ResetDatabases'
+import { useFilteredCategories } from '../hooks/useFilteredCategories'
 
 const translations = {
   title: {
@@ -64,11 +66,6 @@ const translations = {
     de_CH: "Menge",
     en_US: "Quantity"
   },
-  override: {
-    fr_CH: "Ajuster",
-    de_CH: "Überschreiben",
-    en_US: "Override"
-  },
   buyOnline: {
     fr_CH: "Acheter en ligne",
     de_CH: "Online kaufen",
@@ -116,6 +113,7 @@ function RecommendedScreen() {
   const [categoryType, setCategoryType] = useState('all')
 
   const translated = useLittera(translations)
+  const filteredData = useFilteredCategories(data, searchFilter, categoryType)
 
   // Update local state when productData changes
   useEffect(() => {
@@ -131,7 +129,7 @@ function RecommendedScreen() {
     )
     setData(updatedData)
   }
-  
+
   // Handle quantity override change with debounce for saving to disk
   const saveChanges = async (value, item) => {
     try {
@@ -144,32 +142,38 @@ function RecommendedScreen() {
         message: success ? translated.saveSuccess : translated.saveError,
         id: 'save-status'
       })
-    } catch (err) {
+    } catch {
       setSaveStatus({ saving: false, success: false, message: translated.saveError, id: 'save-status' })
     }
   }
 
-  // Debounced version of saveChanges (500ms delay)
   const debouncedSaveChanges = useDebouncedCallback(saveChanges, 500)
 
-  // Combined function to update state immediately and save with debounce
   const handleQuantityChange = (value, item) => {
-    // Update local state immediately
     updateLocalState(value, item)
-
-    // Save to disk with debounce
     debouncedSaveChanges(value, item)
   }
 
-  const quantity = (item) => {
+  const getQuantity = (item) => {
     if (item.quantityOverride || item.quantityOverride === 0) {
       return item.quantityOverride
     }
     return item.quantity
   }
 
-  const overridenQuantity = (item) => {
+  const isOverridden = (item) => {
     return (item.quantityOverride || item.quantityOverride === 0) && item.quantityOverride !== item.quantity
+  }
+
+  const handleOpenShop = (item) => {
+    if (item.onlineShopLink?.length > 0) {
+      openInBrowser(item.onlineShopLink[0])
+    }
+  }
+
+  const handleEditCategory = (item) => {
+    setSelectedCategory(item)
+    setEditModalOpened(true)
   }
 
   const handleDeleteCategory = async (category) => {
@@ -191,93 +195,28 @@ function RecommendedScreen() {
           : translated.categoryNotDeleted(category.productType),
         id: 'save-category'
       })
-    } catch (error) {
+    } catch (err) {
       setSaveStatus({
         saving: false,
         success: false,
-        message: translated.errorDeletingCategory(error.message),
+        message: translated.errorDeletingCategory(err.message),
         id: 'save-category'
       })
     }
   }
 
-  // Filter categories by search text and category type
-  const filteredData = useMemo(() => {
-    let result = data
-
-    // Filter by search text
-    if (searchFilter.trim()) {
-      result = result.filter(cat =>
-        cat.productType.toLowerCase().includes(searchFilter.toLowerCase())
-      )
-    }
-
-    // Filter by category type (if not 'all')
-    // Categories without categoryType are shown in all filter views for backward compatibility
-    if (categoryType !== 'all') {
-      result = result.filter(cat => cat.categoryType === categoryType)
-    }
-
-    return result
-  }, [data, searchFilter, categoryType])
-
   const rows = filteredData.map((item) => (
-    <Table.Tr
+    <CategoryRow
       key={item.productType}
-      onDoubleClick={() => {
-        setSelectedCategory(item)
-        setEditModalOpened(true)
-      }}
-      style={{ cursor: 'pointer' }}
-    >
-      <Table.Td>{item.productType}</Table.Td>
-      <Table.Td>{item.description}</Table.Td>
-      <Table.Td style={{ minWidth: '50px', maxWidth: '80px' }}>
-        <NumberInput
-          size="xs"
-          value={quantity(item)}
-          onChange={(value) => handleQuantityChange(value, item)}
-        />
-      </Table.Td>
-      <Table.Td c="dimmed">
-        {overridenQuantity(item) ? item.quantity : ""}
-      </Table.Td>
-      <Table.Td>
-        <Group gap="xs" wrap="nowrap">
-          <Tooltip label={translated.buyOnline}>
-            <ActionIcon 
-              variant="subtle" 
-              color="blue" 
-              onClick={() => item.onlineShopLink && item.onlineShopLink.length > 0 ? openInBrowser(item.onlineShopLink[0]) : null}
-              disabled={!item.onlineShopLink || item.onlineShopLink.length === 0}
-            >
-              <ShoppingCart size={16} />
-            </ActionIcon>
-          </Tooltip>
-          <Tooltip label={translated.edit}>
-            <ActionIcon 
-              variant="subtle" 
-              color="gray"
-              onClick={() => {
-                setSelectedCategory(item)
-                setEditModalOpened(true)
-              }}
-            >
-              <Pencil size={16} />
-            </ActionIcon>
-          </Tooltip>
-          <Tooltip label={translated.delete(item.productType)}>
-            <ActionIcon 
-              variant="subtle" 
-              color="red"
-              onClick={() => handleDeleteCategory(item)}
-            >
-              <Trash size={16} />
-            </ActionIcon>
-          </Tooltip>
-        </Group>
-      </Table.Td>
-    </Table.Tr>
+      item={item}
+      quantity={getQuantity(item)}
+      isOverridden={isOverridden(item)}
+      onQuantityChange={handleQuantityChange}
+      onEdit={() => handleEditCategory(item)}
+      onDelete={handleDeleteCategory}
+      onOpenShop={() => handleOpenShop(item)}
+      translated={translated}
+    />
   ))
 
   return (
@@ -293,8 +232,7 @@ function RecommendedScreen() {
           <ResetDatabases />
         </Group>
       </Group>
-      
-      {/* Show error message if there's an error */}
+
       {error && (
         <Alert color="red" title={translated.errorSavingFile} mb="md">
           {error}
@@ -338,8 +276,7 @@ function RecommendedScreen() {
       ) : (
         <InitDatabases />
       )}
-      
-      {/* Edit Category Modal */}
+
       {selectedCategory && (
         <EditCategoryModal
           opened={editModalOpened}
@@ -347,8 +284,7 @@ function RecommendedScreen() {
           category={selectedCategory}
         />
       )}
-      
-      {/* Add Category Modal */}
+
       <AddCategoryModal
         opened={addModalOpened}
         onClose={() => setAddModalOpened(false)}

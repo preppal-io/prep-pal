@@ -1,24 +1,22 @@
 import React, { useMemo, useState } from 'react'
-import { Container, Title, Table, Tooltip, useMantineTheme, ActionIcon, Group, Text, NumberInput } from '@mantine/core'
+import { Container, Title, Table, Group } from '@mantine/core'
 import InitDatabases from '../components/InitDatabases'
 import FilterComponent from '../components/FilterComponent'
 import LoadingSpinner from '../components/LoadingSpinner'
+import StockCategoryRow from '../components/StockCategoryRow'
+import StockItemRow from '../components/StockItemRow'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { useProductContext } from '../context/ProductContext'
-import { Trash, Info, PlusCircle, WarningDiamond } from '@phosphor-icons/react'
-import { isTodayAfter } from '../utils/dateUtils'
 import { updateStockItem, removeStockItem } from '../utils/stockUtils'
-import ItemDateChecker from '../components/ItemDateChecker'
 import AddStockItemModal from '../components/AddStockItemModal'
 import { setSaveStatus } from '../utils/notificationUtils'
 import { useLittera } from '@assembless/react-littera'
 import ResetDatabases from '../components/ResetDatabases'
+import { useGroupedStockItems } from '../hooks/useGroupedStockItems'
 
 import translations from './CurrentScreen.translations'
-import { LOW_STOCK_THRESHOLD, CRITICAL_STOCK_THRESHOLD } from '../constants'
 
 function CurrentScreen() {
-  const theme = useMantineTheme()
   const { filesExist, productData, loading, saveStockData } = useProductContext()
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState(null)
@@ -26,7 +24,14 @@ function CurrentScreen() {
   const [categoryType, setCategoryType] = useState('all')
 
   const translated = useLittera(translations)
-  
+
+  const { filteredGroupedStockItems } = useGroupedStockItems(
+    productData,
+    searchFilter,
+    categoryType,
+    translated
+  )
+
   const handleQuantityChange = async (item, newQuantity) => {
     try {
       setSaveStatus({
@@ -56,90 +61,14 @@ function CurrentScreen() {
       })
     }
   }
-  
-  // Debounced version of handleQuantityChange (500ms delay)
+
   const debouncedHandleQuantityChange = useDebouncedCallback(handleQuantityChange, 500)
-  
-  // Group stock items by typeId and include categories with non-zero quantity
-  const groupedStockItems = useMemo(() => {
-    if (!productData.baseCategories) {
-      return []
-    }
-    
-    // Create a map of all categories with non-zero quantity or override
-    const grouped = {}
-    
-    // First, add all categories with non-zero quantity or override
-    productData.baseCategories.forEach(category => {
-      const quantity = category.quantityOverride || category.quantity
-      if (quantity > 0) {
-        grouped[category.id] = {
-          category,
-          items: []
-        }
-      }
-    })
-    
-    // Then, add stock items to their respective categories
-    if (productData.stock && productData.stock.products) {
-      productData.stock.products.forEach(item => {
-        // If the category doesn't exist yet (could be zero quantity), create it
-        if (!grouped[item.typeId]) {
-          const category = productData.baseCategories.find(cat => cat.id === item.typeId) || 
-                          { productType: translated.unknownCategory, id: item.typeId }
-          grouped[item.typeId] = {
-            category,
-            items: []
-          }
-        }
-        
-        // Add the item to its category
-        grouped[item.typeId].items.push(item)
-      })
-    }
-    
-    // Calculate total quantity for each category
-    Object.values(grouped).forEach(group => {
-      group.totalQuantity = group.items.reduce((sum, item) => sum + (item.quantity || 0), 0)
-      
-      const categoryQuantity = group.category.quantityOverride || group.category.quantity
-      group.stockPercentage = categoryQuantity > 0 
-        ? Math.round((group.totalQuantity / categoryQuantity) * 100) 
-        : 100
-
-      // add a property telling whether the category has stock expired
-      group.hasExpired = group.items.some(item => isTodayAfter(item.nextCheck))
-    })
-    
-    // Convert to array and sort by category id
-    return Object.values(grouped).sort((a, b) => a.category.id - b.category.id)
-  }, [productData.stock, productData.baseCategories, translated])
-
-  // Filter grouped stock items by category name and type
-  const filteredGroupedStockItems = useMemo(() => {
-    let result = groupedStockItems
-
-    // Filter by search text
-    if (searchFilter.trim()) {
-      result = result.filter(group =>
-        group.category.productType.toLowerCase().includes(searchFilter.toLowerCase())
-      )
-    }
-
-    // Filter by category type (if not 'all')
-    // Categories without categoryType are shown in all filter views for backward compatibility
-    if (categoryType !== 'all') {
-      result = result.filter(group => group.category.categoryType === categoryType)
-    }
-
-    return result
-  }, [groupedStockItems, searchFilter, categoryType])
 
   const handleAddItem = (category) => {
     setSelectedCategory(category)
     setModalOpen(true)
   }
-  
+
   const handleDeleteItem = async (item, categoryName) => {
     try {
       setSaveStatus({
@@ -169,125 +98,45 @@ function CurrentScreen() {
       })
     }
   }
-  
+
+  const handleUpdateItemDates = async (item, updates) => {
+    const updatedStock = updateStockItem(productData.stock, item, updates)
+    return await saveStockData(updatedStock)
+  }
+
   // Generate table rows
   const rows = useMemo(() => {
     const tableRows = []
 
     filteredGroupedStockItems.forEach(group => {
-      const categoryQuantity = group.category.quantityOverride || group.category.quantity
-      const hasLowStock = group.stockPercentage < LOW_STOCK_THRESHOLD
-      let stockLevelColor = group.stockPercentage > LOW_STOCK_THRESHOLD ? 
-        theme.colors.green[6] : 
-        group.stockPercentage < CRITICAL_STOCK_THRESHOLD ?
-          theme.colors.red[6] :
-          theme.colors.yellow[6]
-
-      const warningLabel = []
-      if (hasLowStock) {
-        warningLabel.push(translated.stockLevel(group.stockPercentage, group.totalQuantity, categoryQuantity))
-      }
-
-      // if the category has expired items, and the stock level is not critical, show a yellow warning at least
-      if (group.hasExpired) {
-        warningLabel.push(`${translated.itemsExpired}`)
-        
-        if (!hasLowStock) {
-          stockLevelColor = theme.colors.yellow[6]
-        }
-      }
-      
       // Add category row
       tableRows.push(
-        <Table.Tr
+        <StockCategoryRow
           key={`category-${group.category.id}`}
-          style={{ borderTop: `1px solid var(--mantine-color-blue-1)`, cursor: 'pointer' }}
-          onDoubleClick={() => handleAddItem(group.category)}
-        >
-          <Table.Td>
-            <Group gap="xs" wrap='nowrap'>
-              {(hasLowStock || group.hasExpired) && (
-                <Tooltip multiline label={warningLabel.join(' | ')}>
-                  <WarningDiamond size={24} color={stockLevelColor} weight="fill" />
-                </Tooltip>
-              )}
-            </Group>
-          </Table.Td>
-          <Table.Td>
-            <Group gap="xs">
-            <Text fw={700} c="blue.4">{group.category.productType}</Text>
-              {group.category.usualExpiryCheckDays && (
-                <Tooltip label={translated.averageExpiration(group.category.usualExpiryCheckDays)}>
-                  <Info color={theme.colors.blue[9]} size={18} />
-                </Tooltip>
-              )}
-            </Group>
-            <Text c="dimmed" size='xs'>{group.category.description}</Text>
-          </Table.Td>
-          <Table.Td>{categoryQuantity}</Table.Td>
-          <Table.Td>
-            <Tooltip label={translated.addItem(group.category.productType)}>
-              <ActionIcon 
-                variant="transparent"
-                onClick={() => handleAddItem(group.category)}
-                tabIndex="-1"
-              >
-                <PlusCircle size={24} />
-              </ActionIcon>
-            </Tooltip>
-          </Table.Td>
-        </Table.Tr>
+          group={group}
+          onAddItem={handleAddItem}
+          translated={translated}
+        />
       )
-      
+
       // Add item rows
       group.items.forEach((item, index) => {
         tableRows.push(
-          <Table.Tr key={`item-${group.category.id}-${index}`}>
-            <Table.Td>
-              <Group gap="xs" wrap='nowrap'>
-                <ItemDateChecker 
-                  item={item}
-                  category={group.category}
-                  productData={productData}
-                  saveStockData={saveStockData}
-                />
-              </Group>
-            </Table.Td>
-            <Table.Td>
-              <Group gap="xs">
-                <Text>{item.description}</Text>
-                <Text size="xs" c="dimmed">(checked: {item.checkedDate})</Text>
-              </Group>
-            </Table.Td>
-            <Table.Td>
-              <NumberInput
-                variant="unstyled"
-                size="xs"
-                value={item.quantity || 0}
-                onChange={(value) => debouncedHandleQuantityChange(item, value)}
-                min={0}
-                styles={{ input: { width: '80px' } }}
-              />
-            </Table.Td>
-            <Table.Td>
-              <Tooltip label={translated.delete(item.description)}>
-                <ActionIcon 
-                  variant="transparent"
-                  onClick={() => handleDeleteItem(item, group.category.productType)}
-                  color="gray"
-                  tabIndex="-1"
-                >
-                  <Trash size={20} />
-                </ActionIcon>
-              </Tooltip>
-            </Table.Td>
-          </Table.Tr>
+          <StockItemRow
+            key={`item-${group.category.id}-${index}`}
+            item={item}
+            category={group.category}
+            onQuantityChange={debouncedHandleQuantityChange}
+            onDelete={handleDeleteItem}
+            onUpdateDates={(updates) => handleUpdateItemDates(item, updates)}
+            translated={translated}
+          />
         )
       })
     })
-    
+
     return tableRows
-  }, [filteredGroupedStockItems, theme.colors, translated])
+  }, [filteredGroupedStockItems, translated, debouncedHandleQuantityChange])
 
   return (
     <Container fluid>
@@ -295,7 +144,7 @@ function CurrentScreen() {
         <Title order={1}>{translated.title}</Title>
         <ResetDatabases />
       </Group>
-      
+
       {filesExist.categories ? (
         <>
           {loading ? (
@@ -310,15 +159,15 @@ function CurrentScreen() {
               />
 
               <Table withRowBorders={false}>
-              <Table.Thead>
-                <Table.Tr>
-                  <Table.Th></Table.Th>
-                  <Table.Th>{translated.product}</Table.Th>
-                  <Table.Th>{translated.quantity}</Table.Th>
-                  <Table.Th></Table.Th>
-                </Table.Tr>
-              </Table.Thead>
-              <Table.Tbody>{rows}</Table.Tbody>
+                <Table.Thead>
+                  <Table.Tr>
+                    <Table.Th></Table.Th>
+                    <Table.Th>{translated.product}</Table.Th>
+                    <Table.Th>{translated.quantity}</Table.Th>
+                    <Table.Th></Table.Th>
+                  </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>{rows}</Table.Tbody>
               </Table>
             </>
           )}

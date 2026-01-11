@@ -2,6 +2,20 @@
  * Stock utility functions for item matching and updates
  */
 
+import { LOW_STOCK_THRESHOLD, CRITICAL_STOCK_THRESHOLD } from '../constants'
+
+/**
+ * Get the appropriate color for a stock level percentage
+ * @param {number} percentage - The stock percentage (0-100+)
+ * @param {Object} theme - Mantine theme object
+ * @returns {string} The color value for the stock level
+ */
+export const getStockLevelColor = (percentage, theme) => {
+  if (percentage > LOW_STOCK_THRESHOLD) return theme.colors.green[6]
+  if (percentage < CRITICAL_STOCK_THRESHOLD) return theme.colors.red[6]
+  return theme.colors.yellow[6]
+}
+
 /**
  * Check if two stock items match based on their identifying properties
  * @param {Object} stockItem - The stock item to check
