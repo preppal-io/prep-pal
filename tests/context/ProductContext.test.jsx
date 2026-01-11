@@ -50,20 +50,31 @@ describe('ProductContext', () => {
   describe('initial state', () => {
     it('starts with loading state', async () => {
       const { result } = renderHook(() => useProductContext(), { wrapper })
+
+      // Check initial synchronous state
       expect(result.current.loading).toBe(true)
-    })
 
-    it('has empty data when no files exist', async () => {
-      const { result } = renderHook(() => useProductContext(), { wrapper })
-
+      // Wait for async operations to settle (prevents act warning)
       await waitFor(() => {
         expect(result.current.loading).toBe(false)
       })
+    })
 
-      expect(result.current.productData.baseCategories).toEqual([])
-      expect(result.current.productData.stock.products).toEqual([])
-      expect(result.current.filesExist.categories).toBe(false)
-      expect(result.current.filesExist.stock).toBe(false)
+    it('has empty data when no files exist', async () => {
+      let hookResult
+      await act(async () => {
+        const { result } = renderHook(() => useProductContext(), { wrapper })
+        hookResult = result
+      })
+
+      await waitFor(() => {
+        expect(hookResult.current.loading).toBe(false)
+      })
+
+      expect(hookResult.current.productData.baseCategories).toEqual([])
+      expect(hookResult.current.productData.stock.products).toEqual([])
+      expect(hookResult.current.filesExist.categories).toBe(false)
+      expect(hookResult.current.filesExist.stock).toBe(false)
     })
   })
 
