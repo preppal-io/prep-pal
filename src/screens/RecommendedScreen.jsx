@@ -4,7 +4,7 @@ import { Plus } from '@phosphor-icons/react'
 import EditCategoryModal from '../components/EditCategoryModal'
 import AddCategoryModal from '../components/AddCategoryModal'
 import InitDatabases from '../components/InitDatabases'
-import FilterComponent from '../components/FilterComponent'
+import FilterComponent, { CATEGORY_TYPE_ICONS } from '../components/FilterComponent'
 import LoadingSpinner from '../components/LoadingSpinner'
 import CategoryRow from '../components/CategoryRow'
 import { useProductContext } from '../context/ProductContext'
@@ -213,19 +213,23 @@ function RecommendedScreen() {
     }
   }
 
-  const rows = filteredData.map((item) => (
-    <CategoryRow
-      key={item.productType}
-      item={item}
-      quantity={getQuantity(item)}
-      isOverridden={isOverridden(item)}
-      onQuantityChange={handleQuantityChange}
-      onEdit={() => handleEditCategory(item)}
-      onDelete={handleDeleteCategory}
-      onOpenShop={() => handleOpenShop(item)}
-      translated={translated}
-    />
-  ))
+  const rows = filteredData.map((item) => {
+    const CategoryIcon = item.categoryType ? CATEGORY_TYPE_ICONS[item.categoryType] : null
+    return (
+      <CategoryRow
+        key={item.productType}
+        item={item}
+        quantity={getQuantity(item)}
+        isOverridden={isOverridden(item)}
+        onQuantityChange={handleQuantityChange}
+        onEdit={() => handleEditCategory(item)}
+        onDelete={handleDeleteCategory}
+        onOpenShop={() => handleOpenShop(item)}
+        translated={translated}
+        CategoryIcon={CategoryIcon}
+      />
+    )
+  })
 
   return (
     <Container fluid>
@@ -269,6 +273,7 @@ function RecommendedScreen() {
               <Table withRowBorders={false} highlightOnHover>
                 <Table.Thead>
                   <Table.Tr>
+                    <Table.Th style={{ width: 32 }}></Table.Th>
                     <Table.Th>{translated.productType}</Table.Th>
                     <Table.Th>{translated.description}</Table.Th>
                     <Table.Th>{translated.quantity}</Table.Th>
