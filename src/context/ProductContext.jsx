@@ -63,6 +63,7 @@ export const ProductProvider = ({ children }) => {
   // Check if files exist and load data on component mount
   useEffect(() => {
     checkFilesAndLoadData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const checkFilesAndLoadData = async () => {

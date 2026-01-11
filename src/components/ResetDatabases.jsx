@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useLittera } from '@assembless/react-littera'
-import { Box, Button, Text, Tooltip } from '@mantine/core'
+import { Box, Button, Tooltip } from '@mantine/core'
 import { useProductContext } from '../context/ProductContext'
 import { StackMinus } from '@phosphor-icons/react'
 

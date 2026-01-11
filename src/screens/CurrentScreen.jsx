@@ -153,6 +153,7 @@ function CurrentScreen() {
     })
 
     return tableRows
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredGroupedStockItems, translated, debouncedHandleQuantityChange])
 
   return (

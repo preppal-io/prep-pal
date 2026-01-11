@@ -33,6 +33,7 @@ export const UserProvider = ({ children }) => {
   // Load user profile on component mount
   useEffect(() => {
     loadUserProfile()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Update user profile when language changes
@@ -40,6 +41,7 @@ export const UserProvider = ({ children }) => {
     if (methods.locale && userProfile.preferredLanguage !== methods.locale) {
       updateUserProfile({ preferredLanguage: methods.locale })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [methods.locale])
 
   // Function to load user profile from disk or localStorage
