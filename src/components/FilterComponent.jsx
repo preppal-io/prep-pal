@@ -1,9 +1,16 @@
-import { TextInput, SegmentedControl, Group } from '@mantine/core'
-import { MagnifyingGlass } from '@phosphor-icons/react'
+import { TextInput, SegmentedControl, Group, Center } from '@mantine/core'
+import { MagnifyingGlass, Carrot, HandSoap, Wrench } from '@phosphor-icons/react'
 import { useLittera } from '@assembless/react-littera'
 
 // Exported constants for reuse in other components
 export const CATEGORY_TYPES = ['food', 'consumable', 'equipment']
+
+// Icon mapping for category types
+export const CATEGORY_TYPE_ICONS = {
+  food: Carrot,
+  consumable: HandSoap,
+  equipment: Wrench
+}
 
 export const categoryTypeTranslations = {
   food: {
@@ -59,9 +66,9 @@ function FilterComponent({
         onChange={onCategoryTypeChange}
         data={[
           { label: translated.all, value: 'all' },
-          { label: translated.food, value: 'food' },
-          { label: translated.consumable, value: 'consumable' },
-          { label: translated.equipment, value: 'equipment' }
+          { label: <Center style={{ gap: 6 }}><Carrot size={16} /> {translated.food}</Center>, value: 'food' },
+          { label: <Center style={{ gap: 6 }}><HandSoap size={16} /> {translated.consumable}</Center>, value: 'consumable' },
+          { label: <Center style={{ gap: 6 }}><Wrench size={16} /> {translated.equipment}</Center>, value: 'equipment' }
         ]}
       />
     </Group>

@@ -13,13 +13,17 @@ function CategoryRow({
   onEdit,
   onDelete,
   onOpenShop,
-  translated
+  translated,
+  CategoryIcon
 }) {
   return (
     <Table.Tr
       onDoubleClick={onEdit}
       style={{ cursor: 'pointer' }}
     >
+      <Table.Td style={{ width: 32 }}>
+        {CategoryIcon && <CategoryIcon size={16} />}
+      </Table.Td>
       <Table.Td>{item.productType}</Table.Td>
       <Table.Td>{item.description}</Table.Td>
       <Table.Td style={{ minWidth: '50px', maxWidth: '80px' }}>
