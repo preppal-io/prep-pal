@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Container, Table, Title, Text, Group, Alert, Tooltip, Button } from '@mantine/core'
 import { Plus } from '@phosphor-icons/react'
 import EditCategoryModal from '../components/EditCategoryModal'
@@ -14,6 +14,7 @@ import { openInBrowser } from '../utils/browserUtils'
 import { useLittera } from '@assembless/react-littera'
 import ResetDatabases from '../components/ResetDatabases'
 import { useFilteredCategories } from '../hooks/useFilteredCategories'
+import { useScrollPreservation } from '../hooks/useScrollPreservation'
 
 const translations = {
   title: {
@@ -114,6 +115,7 @@ function RecommendedScreen() {
 
   const translated = useLittera(translations)
   const filteredData = useFilteredCategories(data, searchFilter, categoryType)
+  const { saveScrollPosition, restoreScrollPosition } = useScrollPreservation()
 
   // Update local state when productData changes
   useEffect(() => {
@@ -171,10 +173,16 @@ function RecommendedScreen() {
     }
   }
 
-  const handleEditCategory = (item) => {
+  const handleEditCategory = useCallback((item) => {
+    saveScrollPosition()
     setSelectedCategory(item)
     setEditModalOpened(true)
-  }
+  }, [saveScrollPosition])
+
+  const handleCloseEditModal = useCallback(() => {
+    setEditModalOpened(false)
+    restoreScrollPosition()
+  }, [restoreScrollPosition])
 
   const handleDeleteCategory = async (category) => {
     try {
@@ -280,7 +288,7 @@ function RecommendedScreen() {
       {selectedCategory && (
         <EditCategoryModal
           opened={editModalOpened}
-          onClose={() => setEditModalOpened(false)}
+          onClose={handleCloseEditModal}
           category={selectedCategory}
         />
       )}

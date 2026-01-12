@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import { Container, Title, Table, Group } from '@mantine/core'
 import InitDatabases from '../components/InitDatabases'
 import FilterComponent from '../components/FilterComponent'
@@ -13,6 +13,7 @@ import { setSaveStatus } from '../utils/notificationUtils'
 import { useLittera } from '@assembless/react-littera'
 import ResetDatabases from '../components/ResetDatabases'
 import { useGroupedStockItems } from '../hooks/useGroupedStockItems'
+import { useScrollPreservation } from '../hooks/useScrollPreservation'
 
 import translations from './CurrentScreen.translations'
 
@@ -24,6 +25,7 @@ function CurrentScreen() {
   const [categoryType, setCategoryType] = useState('all')
 
   const translated = useLittera(translations)
+  const { saveScrollPosition, restoreScrollPosition } = useScrollPreservation()
 
   const { filteredGroupedStockItems } = useGroupedStockItems(
     productData,
@@ -64,10 +66,16 @@ function CurrentScreen() {
 
   const debouncedHandleQuantityChange = useDebouncedCallback(handleQuantityChange, 500)
 
-  const handleAddItem = (category) => {
+  const handleAddItem = useCallback((category) => {
+    saveScrollPosition()
     setSelectedCategory(category)
     setModalOpen(true)
-  }
+  }, [saveScrollPosition])
+
+  const handleCloseModal = useCallback(() => {
+    setModalOpen(false)
+    restoreScrollPosition()
+  }, [restoreScrollPosition])
 
   const handleDeleteItem = async (item, categoryName) => {
     try {
@@ -175,7 +183,7 @@ function CurrentScreen() {
           {selectedCategory && (
             <AddStockItemModal
               opened={modalOpen}
-              onClose={() => setModalOpen(false)}
+              onClose={handleCloseModal}
               categoryId={selectedCategory.id}
               categoryName={selectedCategory.productType}
             />
