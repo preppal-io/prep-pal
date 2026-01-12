@@ -6,6 +6,7 @@ import { setSaveStatus } from '../utils/notificationUtils'
 import { useLittera } from '@assembless/react-littera'
 import DatePickerModal from './DatePickerModal'
 import { useItemActionState, ACTION_STATE } from '../hooks/useItemActionState'
+import { useScrollPreservation } from '../hooks/useScrollPreservation'
 
 import translations from './ItemDateChecker.translations'
 
@@ -23,6 +24,7 @@ const ItemDateChecker = ({ item, category, onUpdate }) => {
   const [selectedDate, setSelectedDate] = useState(null)
 
   const { actionState, setStateWithTimeout, resetState } = useItemActionState(item)
+  const { saveScrollPosition, restoreScrollPosition } = useScrollPreservation()
 
   // Update the item's checked date and next check date
   const updateItemDates = useCallback(async () => {
@@ -111,7 +113,8 @@ const ItemDateChecker = ({ item, category, onUpdate }) => {
     setModalOpen(false)
     setSelectedDate(null)
     resetState()
-  }, [resetState])
+    restoreScrollPosition()
+  }, [resetState, restoreScrollPosition])
 
   // Handle clicks based on current state
   const handleClick = useCallback(() => {
@@ -120,13 +123,14 @@ const ItemDateChecker = ({ item, category, onUpdate }) => {
         updateItemDates()
         break
       case ACTION_STATE.CALENDAR_STAR:
+        saveScrollPosition()
         setSelectedDate(new Date(item.nextCheck))
         setModalOpen(true)
         break
       default:
         break
     }
-  }, [actionState, updateItemDates, item.nextCheck])
+  }, [actionState, updateItemDates, item.nextCheck, saveScrollPosition])
 
   // Determine which icon and tooltip to show based on the current state
   let icon, tooltipLabel, iconColor, onClick
