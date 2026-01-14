@@ -37,8 +37,8 @@ test.describe('Scroll Position Preservation', () => {
       // Ensure we actually scrolled
       expect(scrollPositionBefore).toBeGreaterThan(0)
 
-      // Get the category name for verification
-      const categoryName = await targetRow.locator('td').first().textContent()
+      // Get the category name for verification (second column - first is icon column)
+      const categoryName = await targetRow.locator('td').nth(1).textContent()
 
       // Click edit button on the target row (second-to-last button)
       const actionButtons = targetRow.locator('td').last().locator('button')
@@ -159,7 +159,7 @@ test.describe('Scroll Position Preservation', () => {
       await page.waitForSelector('[role="dialog"]')
 
       // Fill in required fields to add item
-      await page.getByLabel('Description').fill('E2E Test Item')
+      await page.getByLabel('Product name').fill('E2E Test Item')
       await page.getByLabel('Quantity').fill('5')
 
       // Save

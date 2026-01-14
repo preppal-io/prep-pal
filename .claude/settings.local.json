@@ -8,7 +8,9 @@
       "Bash(npm run test:run:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npm run test:e2e:*)",
+      "mcp__playwright__browser_navigate"
     ]
   },
   "enableAllProjectMcpServers": true,
