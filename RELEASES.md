@@ -1,5 +1,17 @@
 # Release notes
 
+## `v0.12.0`
+
+Date: `2026-01-14`
+
+- Add category type icons to categories screen and filter buttons
+- Add stats widget in the header for quick overview
+- Fix scroll position resetting when editing items in lists
+- Fix bug where category was missing when database is initialized
+- Fix e2e tests for updated UI components
+- Refactor: extract components and hooks, simplify interfaces
+- Cleanup: remove unused code, add shared utilities, standardize patterns
+
 ## `v0.11.1`
 
 Date: `2026-01-11`
