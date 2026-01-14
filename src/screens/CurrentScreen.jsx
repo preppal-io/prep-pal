@@ -8,9 +8,7 @@ import StockItemRow from '../components/StockItemRow'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { useProductContext } from '../context/ProductContext'
 import { updateStockItem, removeStockItem } from '../utils/stockUtils'
-import { Trash, Info, PlusCircle, WarningDiamond } from '@phosphor-icons/react'
-import { isTodayAfter, getTodayFormatted } from '../utils/dateUtils'
-import ItemDateChecker from '../components/ItemDateChecker'
+import { getTodayFormatted, addDays } from '../utils/dateUtils'
 import AddStockItemModal from '../components/AddStockItemModal'
 import { setSaveStatus } from '../utils/notificationUtils'
 import { useLittera } from '@assembless/react-littera'
@@ -121,6 +119,59 @@ function CurrentScreen() {
     return await saveStockData(updatedStock)
   }
 
+  const handleGotIt = useCallback(async (category) => {
+    try {
+      const categoryQuantity = category.quantityOverride || category.quantity
+      const categoryName = category.productType
+
+      setSaveStatus({
+        saving: true,
+        success: null,
+        message: translated.gotItFilling(categoryName),
+        id: 'save-stock-item',
+      })
+
+      // Remove all existing items for this category
+      const filteredProducts = productData.stock.products.filter(
+        item => item.typeId !== category.id
+      )
+
+      // Create new item with recommended quantity
+      const checkDays = category.usualExpiryCheckDays || 90
+      const newItem = {
+        typeId: category.id,
+        description: translated.unnamedProduct,
+        quantity: categoryQuantity,
+        addedDate: getTodayFormatted(),
+        checkedDate: getTodayFormatted(),
+        nextCheck: addDays(getTodayFormatted(), checkDays)
+      }
+
+      const updatedStock = {
+        ...productData.stock,
+        products: [...filteredProducts, newItem]
+      }
+
+      const success = await saveStockData(updatedStock)
+
+      setSaveStatus({
+        saving: false,
+        success: success,
+        message: success
+          ? translated.gotItSuccess(categoryName, categoryQuantity)
+          : translated.gotItError(categoryName),
+        id: 'save-stock-item',
+      })
+    } catch (error) {
+      setSaveStatus({
+        saving: false,
+        success: false,
+        message: translated.gotItError(error.message),
+        id: 'save-stock-item',
+      })
+    }
+  }, [productData.stock, saveStockData, translated])
+
   // Generate table rows
   const rows = useMemo(() => {
     const tableRows = []
@@ -132,6 +183,7 @@ function CurrentScreen() {
           key={`category-${group.category.id}`}
           group={group}
           onAddItem={handleAddItem}
+          onGotIt={handleGotIt}
           translated={translated}
         />
       )
@@ -154,7 +206,7 @@ function CurrentScreen() {
 
     return tableRows
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredGroupedStockItems, translated, debouncedHandleQuantityChange])
+  }, [filteredGroupedStockItems, translated, debouncedHandleQuantityChange, handleGotIt])
 
   return (
     <Container fluid>
