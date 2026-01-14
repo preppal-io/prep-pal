@@ -1,13 +1,13 @@
 import React from 'react'
 import { Table, Tooltip, ActionIcon, Group, Text, useMantineTheme } from '@mantine/core'
-import { Info, PlusCircle, WarningDiamond } from '@phosphor-icons/react'
+import { Info, PlusCircle, WarningDiamond, Checks } from '@phosphor-icons/react'
 import { getStockLevelColor } from '../utils/stockUtils'
 import { LOW_STOCK_THRESHOLD } from '../constants'
 
 /**
  * Component for rendering a stock category header row
  */
-function StockCategoryRow({ group, onAddItem, translated }) {
+function StockCategoryRow({ group, onAddItem, onGotIt, translated }) {
   const theme = useMantineTheme()
   const categoryQuantity = group.category.quantityOverride || group.category.quantity
   const hasLowStock = group.stockPercentage < LOW_STOCK_THRESHOLD
@@ -53,15 +53,26 @@ function StockCategoryRow({ group, onAddItem, translated }) {
       </Table.Td>
       <Table.Td>{categoryQuantity}</Table.Td>
       <Table.Td>
-        <Tooltip label={translated.addItem(group.category.productType)}>
-          <ActionIcon
-            variant="transparent"
-            onClick={() => onAddItem(group.category)}
-            tabIndex="-1"
-          >
-            <PlusCircle size={24} />
-          </ActionIcon>
-        </Tooltip>
+        <Group gap="xs" wrap="nowrap">
+          <Tooltip label={translated.addItem(group.category.productType)}>
+            <ActionIcon
+              variant="transparent"
+              onClick={() => onAddItem(group.category)}
+              tabIndex="-1"
+            >
+              <PlusCircle size={24} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label={translated.gotIt(group.category.productType)}>
+            <ActionIcon
+              variant="transparent"
+              onClick={() => onGotIt(group.category)}
+              tabIndex="-1"
+            >
+              <Checks size={24} />
+            </ActionIcon>
+          </Tooltip>
+        </Group>
       </Table.Td>
     </Table.Tr>
   )

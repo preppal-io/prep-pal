@@ -83,5 +83,30 @@ export default {
       fr_CH: "Articles potentiellement périmés dans cette catégorie",
       de_CH: "Artikel in dieser Kategorie möglicherweise abgelaufen",
       en_US: "Items potentially expired in this category",
-    }
+    },
+    gotIt: (productType) => ({
+      fr_CH: `J'ai ce qu'il faut pour ${productType}`,
+      de_CH: `Ich habe genug für ${productType}`,
+      en_US: `Got it for ${productType}`
+    }),
+    unnamedProduct: {
+      fr_CH: "Produit sans nom",
+      de_CH: "Unbenanntes Produkt",
+      en_US: "Unnamed product"
+    },
+    gotItFilling: (categoryName) => ({
+      fr_CH: `Remplissage de ${categoryName} à la quantité recommandée...`,
+      de_CH: `Auffüllen von ${categoryName} auf empfohlene Menge...`,
+      en_US: `Filling ${categoryName} to recommended quantity...`
+    }),
+    gotItSuccess: (categoryName, quantity) => ({
+      fr_CH: `${categoryName} rempli avec ${quantity} unité(s)`,
+      de_CH: `${categoryName} mit ${quantity} Einheit(en) aufgefüllt`,
+      en_US: `${categoryName} filled with ${quantity} unit(s)`
+    }),
+    gotItError: (message) => ({
+      fr_CH: `Erreur lors du remplissage : ${message}`,
+      de_CH: `Fehler beim Auffüllen: ${message}`,
+      en_US: `Error filling: ${message}`
+    })
   }
