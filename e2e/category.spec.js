@@ -47,9 +47,9 @@ test.describe('Category Management', () => {
   test('should delete a category', async ({ page }) => {
     const initialRowCount = await getTableRowCount(page)
 
-    // Get the first category name
+    // Get the first category name (second column - first is icon column)
     const firstRow = page.locator('tbody tr').first()
-    const categoryName = await firstRow.locator('td').first().textContent()
+    const categoryName = await firstRow.locator('td').nth(1).textContent()
 
     // Find all action buttons in the row - they are in a Group at the end
     // The buttons are: ShoppingCart (may be disabled), Pencil, Trash
@@ -61,8 +61,8 @@ test.describe('Category Management', () => {
     // Wait a moment for the action to process
     await page.waitForTimeout(500)
 
-    // Verify category is removed from table
-    await expect(page.locator('tbody tr').first().locator('td').first()).not.toHaveText(categoryName)
+    // Verify category is removed from table (second column - first is icon column)
+    await expect(page.locator('tbody tr').first().locator('td').nth(1)).not.toHaveText(categoryName)
 
     // Verify row count decreased
     const newRowCount = await getTableRowCount(page)
@@ -72,9 +72,9 @@ test.describe('Category Management', () => {
   test('should filter categories by text', async ({ page }) => {
     const initialRowCount = await getTableRowCount(page)
 
-    // Get a category name to search for (partial match)
+    // Get a category name to search for (partial match) - second column, first is icon
     const firstRow = page.locator('tbody tr').first()
-    const categoryName = await firstRow.locator('td').first().textContent()
+    const categoryName = await firstRow.locator('td').nth(1).textContent()
     const searchTerm = categoryName.substring(0, 4).toLowerCase()
 
     // Type in search input
@@ -88,11 +88,11 @@ test.describe('Category Management', () => {
     expect(filteredRowCount).toBeLessThanOrEqual(initialRowCount)
     expect(filteredRowCount).toBeGreaterThan(0)
 
-    // Verify all visible rows contain the search term
+    // Verify all visible rows contain the search term (second column, first is icon)
     const visibleRows = page.locator('tbody tr')
     const count = await visibleRows.count()
     for (let i = 0; i < count; i++) {
-      const rowText = await visibleRows.nth(i).locator('td').first().textContent()
+      const rowText = await visibleRows.nth(i).locator('td').nth(1).textContent()
       expect(rowText.toLowerCase()).toContain(searchTerm)
     }
 
@@ -108,29 +108,29 @@ test.describe('Category Management', () => {
   test('should filter categories by type', async ({ page }) => {
     const initialRowCount = await getTableRowCount(page)
 
-    // Click Food segment - SegmentedControl labels
-    await page.getByText('Food', { exact: true }).click()
+    // Click Food segment - find label containing the text within SegmentedControl
+    await page.locator('.mantine-SegmentedControl-label:has-text("Food")').click()
     await page.waitForTimeout(200)
 
     const foodRowCount = await getTableRowCount(page)
     expect(foodRowCount).toBeLessThanOrEqual(initialRowCount)
 
     // Click Consumable segment
-    await page.getByText('Consumable', { exact: true }).click()
+    await page.locator('.mantine-SegmentedControl-label:has-text("Consumable")').click()
     await page.waitForTimeout(200)
 
     const consumableRowCount = await getTableRowCount(page)
     expect(consumableRowCount).toBeLessThanOrEqual(initialRowCount)
 
     // Click Equipment segment
-    await page.getByText('Equipment', { exact: true }).click()
+    await page.locator('.mantine-SegmentedControl-label:has-text("Equipment")').click()
     await page.waitForTimeout(200)
 
     const equipmentRowCount = await getTableRowCount(page)
     expect(equipmentRowCount).toBeLessThanOrEqual(initialRowCount)
 
-    // Click All segment
-    await page.getByText('All', { exact: true }).click()
+    // Click All segment - use exact match to avoid matching "Consumable" etc.
+    await page.locator('.mantine-SegmentedControl-label').filter({ hasText: /^All$/ }).click()
     await page.waitForTimeout(200)
 
     const allRowCount = await getTableRowCount(page)
@@ -170,9 +170,9 @@ test.describe('Category Management', () => {
   })
 
   test('should edit category via edit popup', async ({ page }) => {
-    // Get first category name
+    // Get first category name (second column - first is icon column)
     const firstRow = page.locator('tbody tr').first()
-    const categoryName = await firstRow.locator('td').first().textContent()
+    const categoryName = await firstRow.locator('td').nth(1).textContent()
 
     // Click edit button - it's the second-to-last button (Pencil icon)
     const actionButtons = firstRow.locator('td').last().locator('button')
@@ -208,9 +208,9 @@ test.describe('Category Management', () => {
   })
 
   test('should open edit modal via double-click', async ({ page }) => {
-    // Get first category name
+    // Get first category name (second column - first is icon column)
     const firstRow = page.locator('tbody tr').first()
-    const categoryName = await firstRow.locator('td').first().textContent()
+    const categoryName = await firstRow.locator('td').nth(1).textContent()
 
     // Double-click the row
     await firstRow.dblclick()
@@ -227,16 +227,16 @@ test.describe('Category Management', () => {
   })
 
   test('should apply combined filters (text + type)', async ({ page }) => {
-    // First apply type filter
-    await page.getByText('Food', { exact: true }).click()
+    // First apply type filter - find label containing the text
+    await page.locator('.mantine-SegmentedControl-label:has-text("Food")').click()
     await page.waitForTimeout(200)
 
     const foodRowCount = await getTableRowCount(page)
 
-    // Get a food category name to search
+    // Get a food category name to search (second column - first is icon column)
     if (foodRowCount > 0) {
       const firstFoodRow = page.locator('tbody tr').first()
-      const categoryName = await firstFoodRow.locator('td').first().textContent()
+      const categoryName = await firstFoodRow.locator('td').nth(1).textContent()
       const searchTerm = categoryName.substring(0, 3).toLowerCase()
 
       // Apply text filter on top of type filter
@@ -256,7 +256,7 @@ test.describe('Category Management', () => {
     }
 
     // Reset type filter to All
-    await page.getByText('All', { exact: true }).click()
+    await page.locator('.mantine-SegmentedControl-label').filter({ hasText: /^All$/ }).click()
   })
 
   test('should cancel add modal without saving', async ({ page }) => {
