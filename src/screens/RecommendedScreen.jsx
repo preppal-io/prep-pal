@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Container, Table, Title, Text, Group, Alert, Tooltip, Button } from '@mantine/core'
+import { Container, Table, Title, Text, Group, Alert, Tooltip, Button, Stack } from '@mantine/core'
 import { Plus } from '@phosphor-icons/react'
 import EditCategoryModal from '../components/EditCategoryModal'
 import AddCategoryModal from '../components/AddCategoryModal'
@@ -7,8 +7,9 @@ import InitDatabases from '../components/InitDatabases'
 import FilterComponent, { CATEGORY_TYPE_ICONS } from '../components/FilterComponent'
 import LoadingSpinner from '../components/LoadingSpinner'
 import CategoryRow from '../components/CategoryRow'
+import MobileCategoryCard from '../components/MobileCategoryCard'
 import { useProductContext } from '../context/ProductContext'
-import { useDebouncedCallback } from '@mantine/hooks'
+import { useDebouncedCallback, useMediaQuery } from '@mantine/hooks'
 import { setSaveStatus } from '../utils/notificationUtils'
 import { openInBrowser } from '../utils/browserUtils'
 import { useLittera, useLitteraMethods } from '@assembless/react-littera'
@@ -118,6 +119,7 @@ function RecommendedScreen() {
   const { locale } = useLitteraMethods()
   const filteredData = useFilteredCategories(data, searchFilter, categoryType)
   const { saveScrollPosition, restoreScrollPosition } = useScrollPreservation()
+  const isMobile = useMediaQuery('(max-width: 576px)')
 
   // Update local state when productData changes
   useEffect(() => {
@@ -233,6 +235,24 @@ function RecommendedScreen() {
     )
   })
 
+  const mobileCards = filteredData.map((item) => {
+    const CategoryIcon = item.categoryType ? CATEGORY_TYPE_ICONS[item.categoryType] : null
+    return (
+      <MobileCategoryCard
+        key={item.productType}
+        item={item}
+        quantity={getQuantity(item)}
+        isOverridden={isOverridden(item)}
+        onQuantityChange={handleQuantityChange}
+        onEdit={() => handleEditCategory(item)}
+        onDelete={handleDeleteCategory}
+        onOpenShop={() => handleOpenShop(item)}
+        translated={translated}
+        CategoryIcon={CategoryIcon}
+      />
+    )
+  })
+
   return (
     <Container fluid>
       <Group gap="xs" mb="md" align="flex-start" justify='space-between'>
@@ -272,19 +292,25 @@ function RecommendedScreen() {
                 onCategoryTypeChange={setCategoryType}
               />
 
-              <Table withRowBorders={false} highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th style={{ width: 32 }}></Table.Th>
-                    <Table.Th>{translated.productType}</Table.Th>
-                    <Table.Th>{translated.description}</Table.Th>
-                    <Table.Th>{translated.quantity}</Table.Th>
-                    <Table.Th></Table.Th>
-                    <Table.Th></Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>{rows}</Table.Tbody>
-              </Table>
+              {isMobile ? (
+                <Stack gap="xs" mt="md">
+                  {mobileCards}
+                </Stack>
+              ) : (
+                <Table withRowBorders={false} highlightOnHover>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th style={{ width: 32 }}></Table.Th>
+                      <Table.Th>{translated.productType}</Table.Th>
+                      <Table.Th>{translated.description}</Table.Th>
+                      <Table.Th>{translated.quantity}</Table.Th>
+                      <Table.Th></Table.Th>
+                      <Table.Th></Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>{rows}</Table.Tbody>
+                </Table>
+              )}
             </>
           )}
         </>
