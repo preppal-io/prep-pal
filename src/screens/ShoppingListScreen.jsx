@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Container, Table, Title, Alert, Text, Button, UnstyledButton, Tooltip } from '@mantine/core'
 import InitDatabases from '../components/InitDatabases'
 import LoadingSpinner from '../components/LoadingSpinner'
-import { Square, StackPlus, Tag, Hash, Printer, Eye, EyeClosed } from '@phosphor-icons/react'
+import { Square, CheckSquare, StackPlus, Tag, Hash, Printer, Eye, EyeClosed } from '@phosphor-icons/react'
 import { useProductContext } from '../context/ProductContext'
 import classes from './ShoppingListScreen.module.css'
 import { useLittera } from '@assembless/react-littera'
@@ -49,6 +49,7 @@ function ShoppingListScreen() {
   const { productData, loading, error, filesExist } = useProductContext()
   const [shoppingListData, setShoppingListData] = useState([])
   const [hiddenItems, setHiddenItems] = useState({})
+  const [checkedItems, setCheckedItems] = useState({})
 
   const translated = useLittera(translations)
 
@@ -96,12 +97,20 @@ function ShoppingListScreen() {
     }))
   }
 
+  const toggleItemCheck = (itemId) => {
+    setCheckedItems(prev => ({
+      ...prev,
+      [itemId]: !prev[itemId]
+    }))
+  }
+
   const rows = shoppingListData.map((item) => {
     const isHidden = hiddenItems[item.id]
-    
+    const isChecked = checkedItems[item.id]
+
     return (
-      <Table.Tr 
-        key={item.id} 
+      <Table.Tr
+        key={item.id}
         className={isHidden ? classes.hiddenRow : ''}
       >
         <Table.Td>
@@ -111,11 +120,15 @@ function ShoppingListScreen() {
             </UnstyledButton>
           </Tooltip>
         </Table.Td>
-        <Table.Td><Square size="24" /></Table.Td>
+        <Table.Td>
+          <UnstyledButton onClick={() => toggleItemCheck(item.id)}>
+            {isChecked ? <CheckSquare size="24" /> : <Square size="24" />}
+          </UnstyledButton>
+        </Table.Td>
         <Table.Td><strong>{item.quantityToBuy}</strong></Table.Td>
-        <Table.Td>{item.productType}</Table.Td>
-        <Table.Td c="dimmed">{item.defaultUnit}</Table.Td>
-        <Table.Td c="dimmed">{item.description}</Table.Td>
+        <Table.Td className={isChecked ? classes.checkedItem : ''}>{item.productType}</Table.Td>
+        <Table.Td c="dimmed" className={isChecked ? classes.checkedItem : ''}>{item.defaultUnit}</Table.Td>
+        <Table.Td c="dimmed" className={isChecked ? classes.checkedItem : ''}>{item.description}</Table.Td>
       </Table.Tr>
     )
   })
