@@ -135,7 +135,7 @@ function AppContent() {
         <Stack justify='flex-end' h="100%" gap="xs">
 
           <Divider />
-          <Group justify="center"><Code fw={700}>v{version}</Code></Group>
+          <Group justify="center"><Code fw={700}>v{version}+{__COMMIT_HASH__}</Code></Group>
           <Group justify="center">
             {localButtons.map((button) => (
               <UnstyledButton

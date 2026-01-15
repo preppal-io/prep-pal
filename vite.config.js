@@ -2,6 +2,16 @@ import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
 import { resolve } from 'path'
 import fs from 'fs'
+import { execSync } from 'child_process'
+
+// Get git commit hash for version display
+const getGitCommitHash = () => {
+  try {
+    return execSync('git rev-parse --short HEAD').toString().trim()
+  } catch {
+    return 'unknown'
+  }
+}
 
 // Custom plugin to copy electron files to build directory
 const copyElectronFiles = () => {
@@ -27,6 +37,9 @@ const copyElectronFiles = () => {
 
 export default defineConfig({
   plugins: [react(), copyElectronFiles()],
+  define: {
+    __COMMIT_HASH__: JSON.stringify(getGitCommitHash()),
+  },
   server: {
     port: 3000,
     open: true,

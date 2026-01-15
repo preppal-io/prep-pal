@@ -22,6 +22,7 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.es2021,
+        __COMMIT_HASH__: 'readonly',
       },
     },
     settings: {
