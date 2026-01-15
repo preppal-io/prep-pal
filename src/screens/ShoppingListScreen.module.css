@@ -62,6 +62,10 @@
   opacity: 0.5;
 }
 
+.checkedItem {
+  text-decoration: line-through;
+}
+
 .shoppingListTable td, .shoppingListTable th {
   white-space: nowrap;
 }
