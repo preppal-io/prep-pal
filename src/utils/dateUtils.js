@@ -77,14 +77,46 @@ export const isTodayAfter = (dateString) => {
  */
 export const addDays = (date, days) => {
   if (!date) return ''
-  
+
   // Convert to Date object if it's a string
   const dateObj = date instanceof Date ? date : parseDate(date)
   if (!dateObj) return ''
-  
+
   // Create a new date to avoid modifying the original
   const newDate = new Date(dateObj)
   newDate.setDate(newDate.getDate() + days)
-  
+
   return formatDate(newDate)
+}
+
+/**
+ * Map Littera locale codes to browser-compatible locale codes
+ * @param {string} litteraLocale - Littera locale (e.g., 'fr_CH', 'de_CH', 'en_US')
+ * @returns {string} Browser-compatible locale code (e.g., 'fr-CH', 'de-CH', 'en-US')
+ */
+export const mapLitteraLocale = (litteraLocale) => {
+  if (!litteraLocale) return 'en-US'
+  return litteraLocale.replace('_', '-')
+}
+
+/**
+ * Format a date for display using locale-aware formatting
+ * @param {string|Date} date - Date string in yyyy-mm-dd format or Date object
+ * @param {string} locale - Littera locale (e.g., 'fr_CH', 'de_CH', 'en_US')
+ * @returns {string} Formatted date string for display
+ */
+export const formatDateForDisplay = (date, locale = 'en_US') => {
+  if (!date) return ''
+
+  // Convert to Date object if it's a string
+  const dateObj = date instanceof Date ? date : parseDate(date)
+  if (!dateObj || isNaN(dateObj)) return ''
+
+  // Map Littera locale to browser locale
+  const browserLocale = mapLitteraLocale(locale)
+
+  // Use Intl.DateTimeFormat for locale-aware short date formatting
+  return new Intl.DateTimeFormat(browserLocale, {
+    dateStyle: 'short'
+  }).format(dateObj)
 }

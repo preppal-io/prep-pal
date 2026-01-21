@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react'
 import { Tooltip, ActionIcon, useMantineTheme } from '@mantine/core'
 import { CalendarCheck, FalloutShelter, UserCheck, CalendarStar } from '@phosphor-icons/react'
-import { isTodayAfter, getToday, addDays } from '../utils/dateUtils'
+import { isTodayAfter, getToday, addDays, formatDateForDisplay } from '../utils/dateUtils'
 import { setSaveStatus } from '../utils/notificationUtils'
-import { useLittera } from '@assembless/react-littera'
+import { useLittera, useLitteraMethods } from '@assembless/react-littera'
 import DatePickerModal from './DatePickerModal'
 import { useItemActionState, ACTION_STATE } from '../hooks/useItemActionState'
 import { useScrollPreservation } from '../hooks/useScrollPreservation'
@@ -20,6 +20,7 @@ import translations from './ItemDateChecker.translations'
 const ItemDateChecker = ({ item, category, onUpdate }) => {
   const theme = useMantineTheme()
   const translated = useLittera(translations)
+  const { locale } = useLitteraMethods()
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
 
@@ -147,12 +148,12 @@ const ItemDateChecker = ({ item, category, onUpdate }) => {
     onClick = handleClick
   } else if (isTodayAfter(item.nextCheck)) {
     icon = <FalloutShelter size={24} />
-    tooltipLabel = translated.checkStock(item.nextCheck)
+    tooltipLabel = translated.checkStock(formatDateForDisplay(item.nextCheck, locale))
     iconColor = theme.colors.yellow[7]
     onClick = () => setStateWithTimeout(ACTION_STATE.USER_CHECK)
   } else {
     icon = <CalendarCheck size={24} />
-    tooltipLabel = translated.nextCheck(item.nextCheck)
+    tooltipLabel = translated.nextCheck(formatDateForDisplay(item.nextCheck, locale))
     iconColor = theme.colors.teal[9]
     onClick = () => setStateWithTimeout(ACTION_STATE.CALENDAR_STAR)
   }
