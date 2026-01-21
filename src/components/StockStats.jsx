@@ -2,8 +2,9 @@ import React, { useMemo } from 'react'
 import { Group, Paper, Text, Tooltip, useMantineTheme } from '@mantine/core'
 import { CheckCircle, Warning, Clock } from '@phosphor-icons/react'
 import { useProductContext } from '../context/ProductContext'
-import { useLittera } from '@assembless/react-littera'
+import { useLittera, useLitteraMethods } from '@assembless/react-littera'
 import { LOW_STOCK_THRESHOLD } from '../constants'
+import { formatDateForDisplay } from '../utils/dateUtils'
 
 const translations = {
   categoriesOk: {
@@ -47,6 +48,7 @@ function StockStats() {
   const theme = useMantineTheme()
   const { productData, filesExist } = useProductContext()
   const translated = useLittera(translations)
+  const { locale } = useLitteraMethods()
 
   // Calculate stock statistics
   const stats = useMemo(() => {
@@ -109,10 +111,8 @@ function StockStats() {
       return translated.never
     }
 
-    return mostRecentCheck.toLocaleDateString(undefined, {
-      dateStyle: 'short',
-    })
-  }, [mostRecentCheck, translated.never])
+    return formatDateForDisplay(mostRecentCheck, locale)
+  }, [mostRecentCheck, locale, translated.never])
 
   // Don't show stats if databases are not initialized
   if (!filesExist.categories || !filesExist.stock) {

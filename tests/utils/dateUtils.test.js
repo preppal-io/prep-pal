@@ -6,6 +6,8 @@ import {
   isTodayAfter,
   getTodayFormatted,
   getToday,
+  mapLitteraLocale,
+  formatDateForDisplay,
 } from '../../src/utils/dateUtils'
 
 describe('dateUtils', () => {
@@ -168,6 +170,58 @@ describe('dateUtils', () => {
 
     it('handles large number of days', () => {
       expect(addDays('2024-01-01', 365)).toBe('2024-12-31') // Leap year has 366 days
+    })
+  })
+
+  describe('mapLitteraLocale', () => {
+    it('maps Littera locale codes to browser locale codes', () => {
+      expect(mapLitteraLocale('fr_CH')).toBe('fr-CH')
+      expect(mapLitteraLocale('de_CH')).toBe('de-CH')
+      expect(mapLitteraLocale('en_US')).toBe('en-US')
+    })
+
+    it('returns default locale for null/undefined', () => {
+      expect(mapLitteraLocale(null)).toBe('en-US')
+      expect(mapLitteraLocale(undefined)).toBe('en-US')
+      expect(mapLitteraLocale('')).toBe('en-US')
+    })
+  })
+
+  describe('formatDateForDisplay', () => {
+    it('formats a date string for display', () => {
+      const result = formatDateForDisplay('2024-03-15', 'en_US')
+      expect(result).toBeTruthy()
+      expect(typeof result).toBe('string')
+    })
+
+    it('formats a Date object for display', () => {
+      const date = new Date(2024, 2, 15)
+      const result = formatDateForDisplay(date, 'en_US')
+      expect(result).toBeTruthy()
+      expect(typeof result).toBe('string')
+    })
+
+    it('returns empty string for invalid input', () => {
+      expect(formatDateForDisplay(null, 'en_US')).toBe('')
+      expect(formatDateForDisplay(undefined, 'en_US')).toBe('')
+      expect(formatDateForDisplay('', 'en_US')).toBe('')
+    })
+
+    it('uses default locale when not specified', () => {
+      const result = formatDateForDisplay('2024-03-15')
+      expect(result).toBeTruthy()
+      expect(typeof result).toBe('string')
+    })
+
+    it('works with different locales', () => {
+      const date = '2024-03-15'
+      const resultFr = formatDateForDisplay(date, 'fr_CH')
+      const resultDe = formatDateForDisplay(date, 'de_CH')
+      const resultEn = formatDateForDisplay(date, 'en_US')
+
+      expect(resultFr).toBeTruthy()
+      expect(resultDe).toBeTruthy()
+      expect(resultEn).toBeTruthy()
     })
   })
 })

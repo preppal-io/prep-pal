@@ -5,7 +5,8 @@ import LoadingSpinner from '../components/LoadingSpinner'
 import { Square, CheckSquare, StackPlus, Tag, Hash, Printer, Eye, EyeClosed } from '@phosphor-icons/react'
 import { useProductContext } from '../context/ProductContext'
 import classes from './ShoppingListScreen.module.css'
-import { useLittera } from '@assembless/react-littera'
+import { useLittera, useLitteraMethods } from '@assembless/react-littera'
+import { formatDateForDisplay } from '../utils/dateUtils'
 
 const translations = {
   title: {
@@ -52,6 +53,7 @@ function ShoppingListScreen() {
   const [checkedItems, setCheckedItems] = useState({})
 
   const translated = useLittera(translations)
+  const { locale } = useLitteraMethods()
 
   // Calculate shopping list data when productData changes
   useEffect(() => {
@@ -143,7 +145,7 @@ function ShoppingListScreen() {
         <div>
           <Title order={1} mb="md">{translated.title}</Title>
           <Text c="dimmed" mb="md">{
-            new Date().toLocaleDateString('fr-CH')
+            formatDateForDisplay(new Date(), locale)
           }</Text>
         </div>
         <Button 

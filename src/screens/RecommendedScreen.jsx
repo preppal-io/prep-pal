@@ -11,10 +11,11 @@ import { useProductContext } from '../context/ProductContext'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { setSaveStatus } from '../utils/notificationUtils'
 import { openInBrowser } from '../utils/browserUtils'
-import { useLittera } from '@assembless/react-littera'
+import { useLittera, useLitteraMethods } from '@assembless/react-littera'
 import ResetDatabases from '../components/ResetDatabases'
 import { useFilteredCategories } from '../hooks/useFilteredCategories'
 import { useScrollPreservation } from '../hooks/useScrollPreservation'
+import { formatDateForDisplay } from '../utils/dateUtils'
 
 const translations = {
   title: {
@@ -114,6 +115,7 @@ function RecommendedScreen() {
   const [categoryType, setCategoryType] = useState('all')
 
   const translated = useLittera(translations)
+  const { locale } = useLitteraMethods()
   const filteredData = useFilteredCategories(data, searchFilter, categoryType)
   const { saveScrollPosition, restoreScrollPosition } = useScrollPreservation()
 
@@ -259,7 +261,7 @@ function RecommendedScreen() {
             <>
               {productData.lastCategoriesUpdate && (
                 <Text size="sm" c="dimmed" mb="md">
-                  {translated.lastUpdated} {new Date(productData.lastCategoriesUpdate).toLocaleDateString()}
+                  {translated.lastUpdated} {formatDateForDisplay(productData.lastCategoriesUpdate, locale)}
                 </Text>
               )}
 
