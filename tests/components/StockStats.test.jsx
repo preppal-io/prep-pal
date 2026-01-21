@@ -27,6 +27,9 @@ vi.mock('@assembless/react-littera', () => ({
     categoriesOkTooltip: 'Categories with sufficient stock',
     lowStockTooltip: 'Categories with insufficient stock',
     lastCheckTooltip: 'Date and time of the last modification'
+  })),
+  useLitteraMethods: vi.fn(() => ({
+    locale: 'en_US'
   }))
 }))
 
